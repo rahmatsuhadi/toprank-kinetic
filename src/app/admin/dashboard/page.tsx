@@ -3,7 +3,7 @@ import { getDashboardStats } from "@/actions/students";
 import { getPendingSubmissions } from "@/actions/submissions";
 import { StatCard } from "@/components/molecules/StatCard";
 import { Badge } from "@/components/atoms/Badge";
-import { Users, FileText, ShieldCheck, CheckCircle } from "lucide-react";
+import { Users, FileText, ShieldCheck, CheckCircle, Award, Briefcase } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[var(--space-lg)]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--space-lg)]">
         <StatCard
           title="Total Mahasiswa"
           value={stats?.totalStudents ?? 0}
@@ -41,9 +41,19 @@ export default async function AdminDashboardPage() {
           icon={ShieldCheck}
         />
         <StatCard
-          title="Disetujui"
+          title="Total Disetujui"
           value={stats?.approvedSubmissions ?? 0}
           icon={CheckCircle}
+        />
+        <StatCard
+          title="Skill Terverifikasi"
+          value={stats?.verifiedSkills ?? 0}
+          icon={Award}
+        />
+        <StatCard
+          title="Proyek Terverifikasi"
+          value={stats?.verifiedPortfolios ?? 0}
+          icon={Briefcase}
         />
       </div>
 

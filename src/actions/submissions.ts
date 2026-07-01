@@ -58,6 +58,7 @@ export async function approveSubmission(submissionId: number) {
     submission.type,
     submission.certificateLevel as CertificateLevel | null,
     submission.portfolioLevel as PortfolioLevel | null,
+    submission.title,
   );
 
   // Transaction: update submission + add points to user

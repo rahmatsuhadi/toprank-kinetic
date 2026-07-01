@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   ShieldCheck,
   Users,
+  Trophy,
   Gift,
   Megaphone,
   LogOut,
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/verifikasi", label: "Verifikasi", icon: ShieldCheck },
   { href: "/admin/mahasiswa", label: "Mahasiswa", icon: Users },
+  { href: "/admin/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/admin/rewards", label: "Rewards", icon: Gift },
   { href: "/admin/opportunities", label: "Opportunities", icon: Megaphone },
 ];

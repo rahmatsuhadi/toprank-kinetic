@@ -32,6 +32,16 @@ export const auth = betterAuth({
         required: false,
         input: true,
       },
+      prodi: {
+        type: "string",
+        required: false,
+        input: true,
+      },
+      angkatan: {
+        type: "string",
+        required: false,
+        input: true,
+      },
       totalPoints: {
         type: "number",
         required: false,

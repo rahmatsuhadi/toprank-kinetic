@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/atoms/Button";
 import { FormField } from "@/components/molecules/FormField";
 import { createSubmission } from "@/actions/submissions";
@@ -14,7 +15,7 @@ import {
   CheckCircle,
   HelpCircle,
 } from "lucide-react";
-import type { CertificateLevel, PortfolioLevel } from "@/config/point-rules";
+import { type CertificateLevel, type PortfolioLevel, SKILL_POINTS } from "@/config/point-rules";
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -32,9 +33,12 @@ const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export function SubmissionForm() {
+  const router = useRouter();
   const [selectedType, setSelectedType] = useState<"certificate" | "portfolio" | "skill">("certificate");
   const [certLevel, setCertLevel] = useState<CertificateLevel>("nasional");
   const [portLevel, setPortLevel] = useState<PortfolioLevel>("personal");
+  const [selectedSkill, setSelectedSkill] = useState("");
+  const [customSkill, setCustomSkill] = useState("");
 
   async function handleSubmit(_prev: string | null, formData: FormData) {
     // Inject the selected type to the formData
@@ -43,6 +47,12 @@ export function SubmissionForm() {
       formData.set("certificateLevel", certLevel);
     } else if (selectedType === "portfolio") {
       formData.set("portfolioLevel", portLevel);
+    } else if (selectedType === "skill") {
+      const finalTitle = selectedSkill === "Lainnya" ? customSkill : selectedSkill;
+      if (!finalTitle || !finalTitle.trim()) {
+        return "Silakan pilih atau masukkan skill Anda.";
+      }
+      formData.set("title", finalTitle);
     }
 
     const result = await createSubmission(formData);
@@ -51,6 +61,9 @@ export function SubmissionForm() {
     // Reset form fields
     const formEl = document.getElementById("submission-form") as HTMLFormElement;
     if (formEl) formEl.reset();
+    setSelectedSkill("");
+    setCustomSkill("");
+    router.push("/mahasiswa/submissions");
     return null;
   }
 
@@ -188,19 +201,65 @@ export function SubmissionForm() {
 
           {/* Form Inputs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField
-              label="JUDUL / NAMA"
-              id="title"
-              required
-              inputProps={{
-                placeholder:
-                  selectedType === "certificate"
-                    ? "Contoh: AWS Certified Solutions Architect"
-                    : selectedType === "skill"
-                    ? "Contoh: React.js Developer / Python Programming"
-                    : "Contoh: E-Commerce Microservices Platform",
-              }}
-            />
+            {selectedType === "skill" ? (
+              <>
+                <FormField
+                  label="PILIH SKILL / KEAHLIAN"
+                  id="skillChoice"
+                  required
+                  type="select"
+                  selectProps={{
+                    value: selectedSkill,
+                    onChange: (e) => setSelectedSkill((e.target as HTMLSelectElement).value),
+                    children: (
+                      <>
+                        <option value="">-- Pilih Skill --</option>
+                        {Object.keys(SKILL_POINTS).map((skillName) => (
+                          <option key={skillName} value={skillName}>
+                            {skillName} ({SKILL_POINTS[skillName as keyof typeof SKILL_POINTS]} Poin)
+                          </option>
+                        ))}
+                        <option value="Lainnya">Lainnya (Poin Menyesuaikan)</option>
+                      </>
+                    ),
+                  }}
+                />
+
+                {selectedSkill === "Lainnya" ? (
+                  <FormField
+                    label="TULIS SKILL LAINNYA"
+                    id="customSkill"
+                    required
+                    inputProps={{
+                      placeholder: "Contoh: Rust Programming / Next.js",
+                      value: customSkill,
+                      onChange: (e) => setCustomSkill(e.target.value),
+                    }}
+                  />
+                ) : (
+                  <div className="flex flex-col gap-1.5 justify-end pb-1 text-xs text-[var(--on-surface-variant)]">
+                    <span className="font-semibold text-[var(--on-surface)]">ESTIMASI POIN</span>
+                    <span>
+                      {selectedSkill
+                        ? `Poin yang akan diperoleh: ${SKILL_POINTS[selectedSkill as keyof typeof SKILL_POINTS]} Poin`
+                        : "Pilih skill untuk melihat estimasi poin."}
+                    </span>
+                  </div>
+                )}
+              </>
+            ) : (
+              <FormField
+                label="JUDUL / NAMA"
+                id="title"
+                required
+                inputProps={{
+                  placeholder:
+                    selectedType === "certificate"
+                      ? "Contoh: AWS Certified Solutions Architect"
+                      : "Contoh: E-Commerce Microservices Platform",
+                }}
+              />
+            )}
 
             {selectedType === "certificate" && (
               <FormField
@@ -243,13 +302,6 @@ export function SubmissionForm() {
                   ),
                 }}
               />
-            )}
-
-            {selectedType === "skill" && (
-              <div className="flex flex-col gap-1.5 justify-end pb-1 text-xs text-[var(--on-surface-variant)]">
-                <span className="font-semibold text-[var(--on-surface)]">POIN KATEGORI</span>
-                <span>Poin diverifikasi dan ditentukan oleh admin saat peninjauan.</span>
-              </div>
             )}
           </div>
 

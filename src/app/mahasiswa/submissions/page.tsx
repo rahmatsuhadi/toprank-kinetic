@@ -1,14 +1,33 @@
 import type { Metadata } from "next";
-import { SubmissionForm } from "@/components/organisms/SubmissionForm";
+import { getMySubmissions } from "@/actions/submissions";
+import { getCurrentUser } from "@/actions/auth";
+import { redirect } from "next/navigation";
+import { SubmissionsListContent } from "@/components/organisms/SubmissionsListContent";
 
 export const metadata: Metadata = {
-  title: "Pengajuan — Kinetic Academy",
+  title: "Pengajuanku — Kinetic Academy",
 };
 
-export default function SubmissionsPage() {
+export default async function SubmissionsPage() {
+  const session = await getCurrentUser();
+  if (!session) redirect("/login");
+
+  const subs = await getMySubmissions();
+
   return (
-    <div className="flex flex-col gap-8">
-      <SubmissionForm />
-    </div>
+    <SubmissionsListContent
+      initialSubmissions={subs.map((s) => ({
+        id: s.id,
+        title: s.title,
+        type: s.type,
+        status: s.status,
+        pointsAwarded: s.pointsAwarded,
+        createdAt: s.createdAt.toISOString(),
+        description: s.description,
+        proofUrl: s.proofUrl,
+        rejectionReason: s.rejectionReason,
+      }))}
+      totalPoints={session.user.totalPoints ?? 0}
+    />
   );
 }

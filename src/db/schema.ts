@@ -53,6 +53,8 @@ export const user = pgTable("user", {
   nim: text("nim").unique(),
   role: roleEnum("role").default("mahasiswa").notNull(),
   bio: text("bio"),
+  prodi: text("prodi"),
+  angkatan: text("angkatan"),
   socialLinks: text("social_links"), // JSON string: { github, linkedin, instagram, etc }
   totalPoints: integer("total_points").default(0).notNull(),
 });

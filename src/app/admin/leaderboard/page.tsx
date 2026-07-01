@@ -5,12 +5,12 @@ import { redirect } from "next/navigation";
 import { LeaderboardTable } from "@/components/organisms/LeaderboardTable";
 
 export const metadata: Metadata = {
-  title: "Papan Peringkat — Kinetic Academy",
+  title: "Leaderboard Mahasiswa — Kinetic Academy",
 };
 
-export default async function LeaderboardPage() {
+export default async function AdminLeaderboardPage() {
   const session = await getCurrentUser();
-  if (!session) redirect("/login");
+  if (!session || session.user.role !== "admin") redirect("/login");
 
   const data = await getLeaderboard();
 
@@ -18,14 +18,7 @@ export default async function LeaderboardPage() {
     <div className="flex flex-col gap-6">
       <LeaderboardTable
         leaderboard={data.leaderboard}
-        currentUser={data.currentUser}
-        sessionUser={{
-          id: session.user.id,
-          name: session.user.name,
-          email: session.user.email,
-          nim: (session.user.nim as string) ?? null,
-          totalPoints: session.user.totalPoints ?? 0,
-        }}
+        isAdmin={true}
       />
     </div>
   );

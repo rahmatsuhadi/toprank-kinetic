@@ -6,6 +6,7 @@ import { Badge } from "@/components/atoms/Badge";
 import { approveSubmission, rejectSubmission } from "@/actions/submissions";
 import { toast } from "sonner";
 import { Check, X, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { ConfirmationDialog } from "@/components/molecules/ConfirmationDialog";
 
 interface Submission {
   id: number;
@@ -38,6 +39,8 @@ export function SubmissionTable({
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [rejectingId, setRejectingId] = useState<number | null>(null);
+  const [confirmApproveId, setConfirmApproveId] = useState<number | null>(null);
+  const [confirmRejectId, setConfirmRejectId] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleApprove(id: number) {
@@ -68,6 +71,14 @@ export function SubmissionTable({
       setRejectingId(null);
       setRejectReason("");
     });
+  }
+
+  function triggerRejectConfirmation(id: number) {
+    if (!rejectReason.trim()) {
+      toast.error("Alasan penolakan wajib diisi.");
+      return;
+    }
+    setConfirmRejectId(id);
   }
 
   if (items.length === 0) {
@@ -147,8 +158,7 @@ export function SubmissionTable({
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => handleReject(sub.id)}
-                      isLoading={isPending}
+                      onClick={() => triggerRejectConfirmation(sub.id)}
                     >
                       Kirim Penolakan
                     </Button>
@@ -168,8 +178,7 @@ export function SubmissionTable({
                 <div className="flex gap-2">
                   <Button
                     size="sm"
-                    onClick={() => handleApprove(sub.id)}
-                    isLoading={isPending}
+                    onClick={() => setConfirmApproveId(sub.id)}
                   >
                     <Check className="h-3.5 w-3.5" />
                     Setujui
@@ -188,6 +197,49 @@ export function SubmissionTable({
           ) : null}
         </div>
       ))}
+
+      {/* Confirmation Dialog Approve */}
+      <ConfirmationDialog
+        isOpen={confirmApproveId !== null}
+        onClose={() => setConfirmApproveId(null)}
+        onConfirm={() => {
+          if (confirmApproveId !== null) {
+            handleApprove(confirmApproveId);
+            setConfirmApproveId(null);
+          }
+        }}
+        title="Konfirmasi Persetujuan"
+        message="Apakah Anda yakin ingin menyetujui pengajuan ini? Poin akan diberikan kepada mahasiswa setelah pengajuan disetujui."
+        confirmLabel="Ya, Setujui"
+        cancelLabel="Batal"
+        type="success"
+        isLoading={isPending}
+      />
+
+      {/* Confirmation Dialog Reject */}
+      <ConfirmationDialog
+        isOpen={confirmRejectId !== null}
+        onClose={() => setConfirmRejectId(null)}
+        onConfirm={() => {
+          if (confirmRejectId !== null) {
+            handleReject(confirmRejectId);
+            setConfirmRejectId(null);
+          }
+        }}
+        title="Konfirmasi Penolakan"
+        message={
+          <div className="flex flex-col gap-2">
+            <p>Apakah Anda yakin ingin menolak pengajuan ini dengan alasan:</p>
+            <div className="bg-[var(--surface-container-high)] p-3 rounded-[var(--rounded-md)] border border-[var(--outline-variant)] text-xs italic text-[var(--on-surface-variant)] leading-normal">
+              "{rejectReason}"
+            </div>
+          </div>
+        }
+        confirmLabel="Ya, Tolak"
+        cancelLabel="Batal"
+        type="danger"
+        isLoading={isPending}
+      />
     </div>
   );
 }
