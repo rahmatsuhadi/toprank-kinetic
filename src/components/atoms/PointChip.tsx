@@ -11,8 +11,9 @@ export function PointChip({ points, className, size = "md" }: PointChipProps) {
   return (
     <span
       className={clsx(
+
         "inline-flex items-center gap-1.5 rounded-full font-mono font-bold",
-        "bg-[var(--reward-gold)]/15 text-[var(--tertiary)]",
+        "bg-[var(--reward-gold)]/15 text-white",
         {
           "px-2 py-0.5 text-xs": size === "sm",
           "px-3 py-1 text-sm": size === "md",

@@ -1,11 +1,4 @@
-import {
-  Award,
-  Briefcase,
-  CheckCircle,
-  FileText,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
+import { Award, Briefcase, Gift, Users } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDashboardStats } from "@/actions/students";
@@ -31,36 +24,26 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[var(--space-lg)]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[var(--space-lg)]">
         <StatCard
           title="Total Mahasiswa"
           value={stats?.totalStudents ?? 0}
           icon={Users}
         />
         <StatCard
-          title="Total Pengajuan"
-          value={stats?.totalSubmissions ?? 0}
-          icon={FileText}
-        />
-        <StatCard
-          title="Menunggu Verifikasi"
-          value={stats?.pendingVerifications ?? 0}
-          icon={ShieldCheck}
-        />
-        <StatCard
-          title="Total Disetujui"
-          value={stats?.approvedSubmissions ?? 0}
-          icon={CheckCircle}
-        />
-        <StatCard
-          title="Skill Terverifikasi"
+          title="Total Skill"
           value={stats?.verifiedSkills ?? 0}
           icon={Award}
         />
         <StatCard
-          title="Proyek Terverifikasi"
+          title="Total Project"
           value={stats?.verifiedPortfolios ?? 0}
           icon={Briefcase}
+        />
+        <StatCard
+          title="Total Reward"
+          value={stats?.totalRewards ?? 0}
+          icon={Gift}
         />
       </div>
 

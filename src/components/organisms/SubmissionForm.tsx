@@ -43,7 +43,7 @@ export function SubmissionForm() {
   const [selectedType, setSelectedType] = useState<"skill_cert" | "portfolio">(
     "skill_cert",
   );
-  const [hasCertificate, setHasCertificate] = useState(false);
+  const [certName, setCertName] = useState("");
   const [certLevel, setCertLevel] = useState<CertificateLevel>("nasional");
   const [portLevel, setPortLevel] = useState<PortfolioLevel>("personal");
   const [selectedSkill, setSelectedSkill] = useState("");
@@ -60,18 +60,15 @@ export function SubmissionForm() {
       // Kolom title di database diisi dengan nama keahlian
       formData.set("title", selectedSkill);
 
-      if (hasCertificate) {
+      const hasCert = certName.trim() !== "";
+      if (hasCert) {
         formData.set("type", "certificate");
         formData.set("certificateLevel", certLevel);
-
-        // Ambil nama sertifikat dari input certificateName
-        const certName = formData.get("certificateName") as string;
-        if (!certName || !certName.trim()) {
-          formData.set("certificateName", `Sertifikat ${selectedSkill}`);
-        }
+        formData.set("certificateName", certName.trim());
       } else {
         formData.set("type", "skill");
         formData.set("certificateName", "");
+        formData.set("certificateLevel", "");
       }
     }
 
@@ -84,12 +81,13 @@ export function SubmissionForm() {
     ) as HTMLFormElement;
     if (formEl) formEl.reset();
     setSelectedSkill("");
-    setHasCertificate(false);
+    setCertName("");
     router.push("/mahasiswa/submissions");
     return null;
   }
 
   const [error, formAction, isPending] = useActionState(handleSubmit, null);
+  const hasCert = certName.trim() !== "";
 
   return (
     <div className="flex flex-col gap-6 animate-fade-in">
@@ -215,77 +213,55 @@ export function SubmissionForm() {
                   ))}
                 </datalist>
 
-                <div className="sm:col-span-2 flex flex-col gap-4 p-4 rounded-[var(--rounded-lg)] bg-[var(--surface-container)] border border-[var(--outline-variant)]">
-                  <label className="flex items-center gap-3 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked={hasCertificate}
-                      onChange={(e) => setHasCertificate(e.target.checked)}
-                      className="h-4 w-4 rounded border-[var(--outline)] text-[var(--primary)] focus:ring-[var(--primary)]"
-                    />
-                    <div>
-                      <span className="text-sm font-semibold text-[var(--on-surface)]">
-                        Saya memiliki sertifikat pendukung untuk keahlian ini
-                      </span>
-                      <p className="text-xs text-[var(--on-surface-variant)]">
-                        Sertifikat resmi akan meningkatkan perolehan poin Anda
-                        berdasarkan tingkatannya.
-                      </p>
-                    </div>
-                  </label>
-
-                  {hasCertificate && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 pt-4 border-t border-[var(--outline-variant)]/60 animate-fade-in">
-                      <FormField
-                        label="JUDUL / NAMA SERTIFIKAT"
-                        id="certificateName"
-                        required
-                        inputProps={{
-                          placeholder:
-                            "Contoh: AWS Certified Solutions Architect",
-                        }}
-                      />
-                      <FormField
-                        label="TINGKAT SERTIFIKAT"
-                        id="certificateLevel"
-                        required
-                        type="select"
-                        selectProps={{
-                          value: certLevel,
-                          onChange: (e) =>
-                            setCertLevel(
-                              (e.target as HTMLSelectElement)
-                                .value as CertificateLevel,
-                            ),
-                          children: (
-                            <>
-                              <option value="lokal">
-                                Lokal ({CERTIFICATE_POINTS.lokal} Poin)
-                              </option>
-                              <option value="regional">
-                                Regional ({CERTIFICATE_POINTS.regional} Poin)
-                              </option>
-                              <option value="nasional">
-                                Nasional ({CERTIFICATE_POINTS.nasional} Poin)
-                              </option>
-                              <option value="internasional">
-                                Internasional (
-                                {CERTIFICATE_POINTS.internasional} Poin)
-                              </option>
-                            </>
-                          ),
-                        }}
-                      />
-                    </div>
-                  )}
+                <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-[var(--rounded-lg)] bg-[var(--surface-container)] border border-[var(--outline-variant)]">
+                  <FormField
+                    label="JUDUL / NAMA SERTIFIKAT (OPSIONAL)"
+                    id="certificateName"
+                    inputProps={{
+                      placeholder: "Contoh: AWS Certified Solutions Architect",
+                      value: certName,
+                      onChange: (e) => setCertName(e.target.value),
+                    }}
+                  />
+                  <FormField
+                    label="TINGKAT SERTIFIKAT"
+                    id="certificateLevel"
+                    type="select"
+                    selectProps={{
+                      value: certLevel,
+                      onChange: (e) =>
+                        setCertLevel(
+                          (e.target as HTMLSelectElement)
+                            .value as CertificateLevel,
+                        ),
+                      disabled: !hasCert,
+                      children: (
+                        <>
+                          <option value="lokal">
+                            Lokal ({CERTIFICATE_POINTS.lokal} Poin)
+                          </option>
+                          <option value="regional">
+                            Regional ({CERTIFICATE_POINTS.regional} Poin)
+                          </option>
+                          <option value="nasional">
+                            Nasional ({CERTIFICATE_POINTS.nasional} Poin)
+                          </option>
+                          <option value="internasional">
+                            Internasional ({CERTIFICATE_POINTS.internasional}{" "}
+                            Poin)
+                          </option>
+                        </>
+                      ),
+                    }}
+                  />
 
                   {/* Estimasi Poin Display */}
-                  <div className="text-xs text-[var(--on-surface-variant)] flex justify-between items-center border-t border-[var(--outline-variant)]/60 pt-3">
+                  <div className="sm:col-span-2 text-xs text-[var(--on-surface-variant)] flex justify-between items-center border-t border-[var(--outline-variant)]/60 pt-3">
                     <span className="font-semibold text-[var(--on-surface)] uppercase tracking-wider">
                       Estimasi Perolehan Poin
                     </span>
                     <span className="font-black text-[var(--primary)] text-sm">
-                      {hasCertificate
+                      {hasCert
                         ? `${CERTIFICATE_POINTS[certLevel]} Poin`
                         : selectedSkill
                           ? `${(() => {
@@ -387,13 +363,10 @@ export function SubmissionForm() {
                   type="url"
                   name="proofUrl"
                   id="proofUrl"
-                  required
                   placeholder={
                     selectedType === "portfolio"
                       ? "Link Repositori (GitHub/GitLab/Bitbucket)"
-                      : hasCertificate
-                        ? "Link Verifikasi / Link Sertifikat di Google Drive atau Credential URL"
-                        : "Link Bukti Pendukung (GitHub, Post LinkedIn, Google Drive, dll.)"
+                      : "Link Bukti Pendukung"
                   }
                   className="w-full rounded-[var(--rounded-md)] border border-[var(--outline-variant)] bg-[var(--surface)] pl-10 pr-3 py-2 text-sm focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)]"
                 />

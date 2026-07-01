@@ -116,7 +116,7 @@ export function PortfolioContent({
 
             {/* Quick Actions */}
             <div className="flex gap-2 justify-center">
-              <button
+              {/* <button
                 type="button"
                 className="p-2 border border-[var(--outline-variant)] rounded-[var(--rounded-md)] hover:bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]"
                 onClick={() => {
@@ -125,7 +125,7 @@ export function PortfolioContent({
                 }}
               >
                 <Share2 className="h-4 w-4" />
-              </button>
+              </button> */}
               {!isAdminView && (
                 <Link href="/mahasiswa/profil/edit">
                   <Button className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white flex items-center gap-1.5">

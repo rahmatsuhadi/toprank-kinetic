@@ -2,7 +2,7 @@
 
 import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { submissions, user } from "@/db/schema";
+import { rewards, submissions, user } from "@/db/schema";
 import { getCurrentUser } from "./auth";
 
 export async function getDashboardStats() {
@@ -17,21 +17,22 @@ export async function getDashboardStats() {
 
   const [subStats] = await db
     .select({
-      total: sql<number>`count(*)`,
-      pending: sql<number>`count(*) filter (where ${submissions.status} = 'pending')`,
-      approved: sql<number>`count(*) filter (where ${submissions.status} = 'approved')`,
       skills: sql<number>`count(*) filter (where ${submissions.type} = 'skill' and ${submissions.status} = 'approved')`,
       portfolios: sql<number>`count(*) filter (where ${submissions.type} = 'portfolio' and ${submissions.status} = 'approved')`,
     })
     .from(submissions);
 
+  const [rewardStats] = await db
+    .select({
+      total: sql<number>`count(*)`,
+    })
+    .from(rewards);
+
   return {
     totalStudents: stats?.totalStudents ?? 0,
-    totalSubmissions: subStats?.total ?? 0,
-    pendingVerifications: subStats?.pending ?? 0,
-    approvedSubmissions: subStats?.approved ?? 0,
     verifiedSkills: subStats?.skills ?? 0,
     verifiedPortfolios: subStats?.portfolios ?? 0,
+    totalRewards: rewardStats?.total ?? 0,
   };
 }
 

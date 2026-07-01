@@ -136,7 +136,7 @@ export function AdminDashboardLayout({
       </aside>
 
       {/* Main */}
-      <main className="flex-1 ml-0 lg:ml-[var(--sidebar-width)] p-4 sm:p-6 lg:p-[var(--space-xl)] pt-20 lg:pt-[var(--space-xl)]">
+      <main className="flex-1 ml-0 lg:ml-[var(--sidebar-width)] pt-24 px-4 pb-4 sm:px-6 sm:pb-6 lg:p-[var(--space-xl)]">
         <div className="max-w-[var(--container-max)] mx-auto">{children}</div>
       </main>
     </div>
