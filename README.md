@@ -113,21 +113,6 @@ Akses penuh untuk memverifikasi submisi mahasiswa, mengelola reward, dan mempost
 - **Email**: `admin@kinetic.ac.id`
 - **Password**: `admin123`
 
-### 2. Mahasiswa (Student)
-Bisa melengkapi profil, mengajukan sertifikat/portofolio, melihat leaderboard, dan menukar reward.
-- **Akun 1 (Budi Santoso)**
-  - **Email**: `budi.santoso@student.ac.id`
-  - **NIM**: `22.11.4561`
-  - **Password**: `password123`
-- **Akun 2 (Clara Wijaya)**
-  - **Email**: `clara.wijaya@student.ac.id`
-  - **NIM**: `22.11.4562`
-  - **Password**: `password123`
-- **Akun 3 (Farhan Ramadhan)**
-  - **Email**: `farhan.ramadhan@student.ac.id`
-  - **NIM**: `23.11.5120`
-  - **Password**: `password123`
-
 ---
 
 ## 📝 Perintah Tambahan
