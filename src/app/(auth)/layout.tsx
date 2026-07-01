@@ -14,7 +14,7 @@ export default function AuthLayout({
             Kinetic Academy
           </span>
         </div>
-        <div className="elevation-1 rounded-[var(--rounded-xl)] p-8 animate-fade-in">
+        <div className="elevation-1 rounded-lg sm:rounded-[var(--rounded-xl)] p-6 sm:p-8 animate-fade-in">
           {children}
         </div>
       </div>

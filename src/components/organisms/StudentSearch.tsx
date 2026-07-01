@@ -275,15 +275,6 @@ export function StudentSearch() {
 
               {/* Action Buttons */}
               <div className="flex gap-3 mt-6 pt-4 border-t border-[var(--outline-variant)]">
-                <a
-                  href={getWhatsAppLink(student)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-[var(--rounded-md)] bg-[#10B981] hover:bg-[#0D9488] text-white text-xs font-bold py-2.5 shadow-sm transition-all duration-200"
-                >
-                  <MessageSquare className="h-4 w-4" />
-                  Hubungi via WhatsApp
-                </a>
                 <button
                   type="button"
                   onClick={() => setSelectedStudent(student)}

@@ -74,20 +74,19 @@ export function DashboardContent({
   return (
     <div className="flex flex-col gap-6">
       {/* Welcome Banner */}
-      <div className="relative rounded-[var(--rounded-xl)] overflow-hidden bg-gradient-to-r from-[var(--primary-container)] via-[var(--primary)] to-[var(--secondary)] p-8 text-white">
+      <div className="relative rounded-[var(--rounded-xl)] overflow-hidden bg-gradient-to-r from-[var(--primary-container)] via-[var(--primary)] to-[var(--secondary)] p-6 sm:p-8 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-60" />
-        <div className="relative">
-          <h1 className="text-headline-lg">
+        <div className="relative z-10 flex-1">
+          <h1 className="text-headline-lg-mobile sm:text-headline-lg">
             Welcome back, {firstName}!
           </h1>
           <p className="text-white/70 text-body-md mt-1 max-w-lg">
             Portofoliomu terus berkembang. Terus tingkatkan skill dan raih lebih banyak poin!
           </p>
-
         </div>
 
         {/* Quick Actions */}
-        <div className="absolute top-6 right-8 flex gap-3">
+        <div className="relative z-10 flex gap-3 shrink-0 self-start sm:self-center">
           <Link href="/mahasiswa/submissions">
             <Button variant="secondary" size="sm" className="!border-white/30 !text-white hover:!bg-white/15">
               <Plus className="h-3.5 w-3.5" />
@@ -98,7 +97,7 @@ export function DashboardContent({
       </div>
 
       {/* Stat Cards Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatItem
           icon={Star}
           label="Total Poin"
@@ -268,48 +267,7 @@ export function DashboardContent({
       </div>
 
       {/* Bottom Row: Top Skills */}
-      <div className="elevation-1 rounded-[var(--rounded-xl)] p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-[var(--on-surface)]">
-            Top Skills
-          </h3>
-          <Link href="/mahasiswa/submissions">
-            <Button variant="ghost" size="sm">
-              Kelola Semua Skill
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
-          </Link>
-        </div>
 
-        {topSkills.length === 0 ? (
-          <p className="text-sm text-[var(--on-surface-variant)] py-4">
-            Belum ada skill terverifikasi. Ajukan sekarang!
-          </p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {topSkills.map((skill) => {
-              const maxPoints = Math.max(...topSkills.map((s) => s.points), 1);
-              const pct = Math.round((skill.points / maxPoints) * 100);
-              return (
-                <div key={skill.name} className="flex items-center gap-4">
-                  <span className="text-sm font-medium text-[var(--on-surface)] w-40 truncate">
-                    {skill.name}
-                  </span>
-                  <div className="flex-1 h-2 bg-[var(--surface-container)] rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-[var(--primary-container)] rounded-full transition-all duration-700"
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                  <span className="text-xs font-mono text-[var(--on-surface-variant)] w-10 text-right">
-                    {pct}%
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
     </div>
   );
 }
