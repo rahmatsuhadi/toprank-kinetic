@@ -1,65 +1,114 @@
-import Image from "next/image";
+import Link from "next/link";
+import {
+  Zap,
+  Trophy,
+  FileText,
+  Gift,
+  ArrowRight,
+  Shield,
+  Users,
+} from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen flex flex-col">
+      {/* Hero */}
+      <header className="relative overflow-hidden bg-gradient-to-br from-[var(--primary-container)] via-[var(--primary)] to-[var(--secondary)] text-white">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-50" />
+        <div className="relative max-w-[var(--container-max)] mx-auto px-[var(--space-lg)] py-24 md:py-32">
+          <div className="flex items-center gap-2 mb-6">
+            <Zap className="h-8 w-8 text-[var(--reward-gold)]" />
+            <span className="text-xl font-bold">Kinetic Academy</span>
+          </div>
+          <h1 className="text-display-lg max-w-2xl">
+            University Talent Hub
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="text-body-lg text-white/80 max-w-lg mt-4">
+            Platform gamifikasi untuk memetakan, mengembangkan, dan
+            mempertemukan talenta mahasiswa dengan berbagai peluang.
+          </p>
+          <div className="flex gap-4 mt-8 flex-wrap">
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 bg-white text-[var(--primary)] px-6 py-3 rounded-[var(--rounded-md)] font-semibold text-sm hover:bg-white/90 transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Mulai Sekarang
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 border-2 border-white/30 text-white px-6 py-3 rounded-[var(--rounded-md)] font-semibold text-sm hover:bg-white/10 transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
+              Masuk
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Features */}
+      <section className="py-20 px-[var(--space-lg)]">
+        <div className="max-w-[var(--container-max)] mx-auto">
+          <h2 className="text-headline-lg text-center mb-2">
+            Fitur Unggulan
+          </h2>
+          <p className="text-body-md text-[var(--on-surface-variant)] text-center mb-12 max-w-md mx-auto">
+            Bangun portofolio, raih poin, dan tunjukkan kemampuanmu.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[var(--space-lg)]">
+            {[
+              {
+                icon: FileText,
+                title: "Portfolio & Sertifikat",
+                desc: "Dokumentasikan pencapaianmu dan dapatkan verifikasi resmi.",
+              },
+              {
+                icon: Shield,
+                title: "Verifikasi Admin",
+                desc: "Setiap pengajuan diverifikasi oleh admin universitas.",
+              },
+              {
+                icon: Trophy,
+                title: "Leaderboard",
+                desc: "Bersaing secara sehat dan naik peringkat.",
+              },
+              {
+                icon: Gift,
+                title: "Reward System",
+                desc: "Tukarkan poin dengan voucher dan reward menarik.",
+              },
+            ].map((feat) => (
+              <div
+                key={feat.title}
+                className="elevation-1 rounded-[var(--rounded-lg)] p-[var(--space-lg)] hover:shadow-[var(--shadow-hover)] transition-all duration-200"
+              >
+                <div className="rounded-[var(--rounded-md)] bg-[var(--primary-fixed)] p-3 w-fit mb-4">
+                  <feat.icon className="h-6 w-6 text-[var(--primary-container)]" />
+                </div>
+                <h3 className="text-sm font-bold text-[var(--on-surface)] mb-1">
+                  {feat.title}
+                </h3>
+                <p className="text-xs text-[var(--on-surface-variant)] leading-relaxed">
+                  {feat.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="mt-auto border-t border-[var(--outline-variant)] py-8 px-[var(--space-lg)]">
+        <div className="max-w-[var(--container-max)] mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm text-[var(--on-surface-variant)]">
+            <Zap className="h-4 w-4 text-[var(--primary-container)]" />
+            Kinetic Academy
+          </div>
+          <p className="text-xs text-[var(--outline)]">
+            © {new Date().getFullYear()} University Talent Hub
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </footer>
     </div>
   );
 }
