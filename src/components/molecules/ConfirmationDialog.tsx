@@ -1,8 +1,8 @@
 "use client";
 
+import { AlertCircle, AlertTriangle, Check, Info } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/atoms/Button";
-import { Check, AlertTriangle, AlertCircle, Info } from "lucide-react";
 
 interface ConfirmationDialogProps {
   isOpen: boolean;
@@ -78,7 +78,9 @@ export function ConfirmationDialog({
       {/* Dialog container */}
       <div className="relative bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)] w-full max-w-md rounded-[var(--rounded-xl)] shadow-2xl p-6 flex flex-col gap-5 z-10 animate-fade-in max-h-[90vh] overflow-y-auto">
         <div className="flex items-start gap-4">
-          <div className={`p-3 rounded-[var(--rounded-lg)] shrink-0 ${config.iconBg}`}>
+          <div
+            className={`p-3 rounded-[var(--rounded-lg)] shrink-0 ${config.iconBg}`}
+          >
             <IconComponent className="h-6 w-6" />
           </div>
           <div className="flex-1 min-w-0">

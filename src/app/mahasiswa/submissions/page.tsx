@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { getMySubmissions } from "@/actions/submissions";
-import { getCurrentUser } from "@/actions/auth";
 import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/actions/auth";
+import { getMySubmissions } from "@/actions/submissions";
 import { SubmissionsListContent } from "@/components/organisms/SubmissionsListContent";
 
 export const metadata: Metadata = {

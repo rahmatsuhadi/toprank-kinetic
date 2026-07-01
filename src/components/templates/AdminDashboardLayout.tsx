@@ -1,23 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import {
-  LayoutDashboard,
-  ShieldCheck,
-  Users,
-  Trophy,
   Gift,
-  Megaphone,
+  LayoutDashboard,
   LogOut,
-  Zap,
   Menu,
+  ShieldCheck,
+  Trophy,
+  Users,
   X,
+  Zap,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 
 const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -56,7 +54,11 @@ export function AdminDashboardLayout({
           className="p-2 hover:bg-white/10 rounded-md transition-colors"
           aria-label="Toggle Menu"
         >
-          {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isSidebarOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </header>
 
@@ -72,7 +74,7 @@ export function AdminDashboardLayout({
       <aside
         className={clsx(
           "w-[var(--sidebar-width)] bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] flex flex-col shrink-0 fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:translate-x-0",
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         {/* Brand */}

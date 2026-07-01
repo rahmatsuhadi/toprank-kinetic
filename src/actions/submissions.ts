@@ -1,11 +1,11 @@
 "use server";
 
+import { desc, eq, sql } from "drizzle-orm";
+import type { CertificateLevel, PortfolioLevel } from "@/config/point-rules";
+import { resolvePoints } from "@/config/point-rules";
 import { db } from "@/db";
 import { submissions, user } from "@/db/schema";
 import { getCurrentUser } from "./auth";
-import { resolvePoints } from "@/config/point-rules";
-import type { CertificateLevel, PortfolioLevel } from "@/config/point-rules";
-import { eq, desc, and, sql } from "drizzle-orm";
 
 export async function createSubmission(formData: FormData) {
   const session = await getCurrentUser();
@@ -15,8 +15,12 @@ export async function createSubmission(formData: FormData) {
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const proofUrl = formData.get("proofUrl") as string;
-  const certificateLevel = formData.get("certificateLevel") as CertificateLevel | null;
-  const portfolioLevel = formData.get("portfolioLevel") as PortfolioLevel | null;
+  const certificateLevel = formData.get(
+    "certificateLevel",
+  ) as CertificateLevel | null;
+  const portfolioLevel = formData.get(
+    "portfolioLevel",
+  ) as PortfolioLevel | null;
   const certificateName = formData.get("certificateName") as string | null;
 
   if (!type || !title || !proofUrl) {
@@ -54,7 +58,8 @@ export async function approveSubmission(submissionId: number) {
     .limit(1);
 
   if (!submission) return { error: "Pengajuan tidak ditemukan." };
-  if (submission.status !== "pending") return { error: "Pengajuan sudah diproses." };
+  if (submission.status !== "pending")
+    return { error: "Pengajuan sudah diproses." };
 
   const points = resolvePoints(
     submission.type,
@@ -90,10 +95,7 @@ export async function approveSubmission(submissionId: number) {
   }
 }
 
-export async function rejectSubmission(
-  submissionId: number,
-  reason: string,
-) {
+export async function rejectSubmission(submissionId: number, reason: string) {
   const session = await getCurrentUser();
   if (!session || session.user.role !== "admin") {
     return { error: "Unauthorized" };

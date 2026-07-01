@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { RewardCard } from "@/components/molecules/RewardCard";
-import { claimReward } from "@/actions/rewards";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
+import { claimReward } from "@/actions/rewards";
+import { RewardCard } from "@/components/molecules/RewardCard";
 
 interface Reward {
   id: number;
@@ -41,7 +41,9 @@ export function RewardGrid({ rewards, userPoints }: RewardGridProps) {
   if (rewards.length === 0) {
     return (
       <div className="elevation-1 rounded-[var(--rounded-lg)] p-12 text-center">
-        <p className="text-[var(--on-surface-variant)]">Belum ada reward tersedia.</p>
+        <p className="text-[var(--on-surface-variant)]">
+          Belum ada reward tersedia.
+        </p>
       </div>
     );
   }

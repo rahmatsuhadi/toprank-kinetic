@@ -1,9 +1,9 @@
 "use server";
 
+import { desc } from "drizzle-orm";
 import { db } from "@/db";
 import { opportunities } from "@/db/schema";
 import { getCurrentUser } from "./auth";
-import { desc } from "drizzle-orm";
 
 export async function createOpportunity(formData: FormData) {
   const session = await getCurrentUser();
@@ -35,8 +35,5 @@ export async function createOpportunity(formData: FormData) {
 }
 
 export async function getOpportunities() {
-  return db
-    .select()
-    .from(opportunities)
-    .orderBy(desc(opportunities.createdAt));
+  return db.select().from(opportunities).orderBy(desc(opportunities.createdAt));
 }

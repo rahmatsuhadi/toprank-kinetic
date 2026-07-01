@@ -1,23 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import {
-  LayoutDashboard,
-  User,
   FileText,
-  Trophy,
   Gift,
+  LayoutDashboard,
   LogOut,
-  Zap,
   Menu,
+  Trophy,
+  User,
   X,
+  Zap,
 } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { PointChip } from "@/components/atoms/PointChip";
+import { authClient } from "@/lib/auth-client";
 
 const navItems = [
   { href: "/mahasiswa/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -63,7 +62,11 @@ export function StudentDashboardLayout({
             className="p-2 hover:bg-white/10 rounded-md transition-colors"
             aria-label="Toggle Menu"
           >
-            {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isSidebarOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
         </div>
       </header>
@@ -80,7 +83,7 @@ export function StudentDashboardLayout({
       <aside
         className={clsx(
           "w-[var(--sidebar-width)] bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] flex flex-col shrink-0 fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:translate-x-0",
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         {/* Brand */}
@@ -92,7 +95,9 @@ export function StudentDashboardLayout({
             </div>
             {userName ? (
               <div className="mt-3 flex items-center justify-between gap-2">
-                <p className="text-sm text-white/70 truncate max-w-[120px]">{userName}</p>
+                <p className="text-sm text-white/70 truncate max-w-[120px]">
+                  {userName}
+                </p>
                 <PointChip points={userPoints} size="sm" />
               </div>
             ) : null}

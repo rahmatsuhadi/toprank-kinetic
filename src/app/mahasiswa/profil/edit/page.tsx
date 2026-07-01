@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { getCurrentUser } from "@/actions/auth";
 import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/actions/auth";
 import { EditProfileContent } from "./EditProfileContent";
 
 export const metadata: Metadata = {

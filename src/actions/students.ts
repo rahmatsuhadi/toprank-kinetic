@@ -1,9 +1,9 @@
 "use server";
 
+import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { user, submissions } from "@/db/schema";
+import { submissions, user } from "@/db/schema";
 import { getCurrentUser } from "./auth";
-import { eq, ilike, sql, and, desc, or } from "drizzle-orm";
 
 export async function getDashboardStats() {
   const session = await getCurrentUser();
@@ -42,7 +42,7 @@ export async function searchStudents(query?: string, minPoints?: number) {
     conditions.push(sql`${user.totalPoints} >= ${minPoints}`);
   }
 
-  if (query && query.trim()) {
+  if (query?.trim()) {
     const studentSubquery = db
       .select({ userId: submissions.userId })
       .from(submissions)
@@ -52,8 +52,8 @@ export async function searchStudents(query?: string, minPoints?: number) {
           or(
             ilike(submissions.title, `%${query}%`),
             ilike(submissions.description, `%${query}%`),
-          )
-        )
+          ),
+        ),
       );
 
     conditions.push(
@@ -61,8 +61,8 @@ export async function searchStudents(query?: string, minPoints?: number) {
         ilike(user.name, `%${query}%`),
         ilike(user.nim, `%${query}%`),
         ilike(user.email, `%${query}%`),
-        sql`${user.id} in (${studentSubquery})`
-      )!
+        sql`${user.id} in (${studentSubquery})`,
+      )!,
     );
   }
 
@@ -87,7 +87,7 @@ export async function searchStudents(query?: string, minPoints?: number) {
 
   // 2. Fetch all submissions matching these students that are approved
   const studentIds = students.map((s) => s.id);
-  
+
   let approvedSubs: any[] = [];
   if (studentIds.length > 0) {
     const { inArray } = await import("drizzle-orm");
@@ -110,8 +110,8 @@ export async function searchStudents(query?: string, minPoints?: number) {
       .where(
         and(
           inArray(submissions.userId, studentIds),
-          eq(submissions.status, "approved")
-        )
+          eq(submissions.status, "approved"),
+        ),
       );
   }
 
@@ -124,16 +124,18 @@ export async function searchStudents(query?: string, minPoints?: number) {
         .where(
           and(
             eq(user.role, "mahasiswa"),
-            sql`${user.totalPoints} > ${student.totalPoints}`
-          )
+            sql`${user.totalPoints} > ${student.totalPoints}`,
+          ),
         );
-      
+
       const rank = Number(rankCount?.count ?? 0) + 1;
       const studentSubs = approvedSubs
         .filter((sub) => sub.userId === student.id)
         .map((sub) => ({
           ...sub,
-          createdAt: sub.createdAt ? sub.createdAt.toISOString() : new Date().toISOString(),
+          createdAt: sub.createdAt
+            ? sub.createdAt.toISOString()
+            : new Date().toISOString(),
         }));
 
       // Parse social links
@@ -142,7 +144,7 @@ export async function searchStudents(query?: string, minPoints?: number) {
         if (student.socialLinks) {
           parsedLinks = JSON.parse(student.socialLinks);
         }
-      } catch (e) {}
+      } catch (_e) {}
 
       return {
         id: student.id,
@@ -158,7 +160,7 @@ export async function searchStudents(query?: string, minPoints?: number) {
         socialLinks: parsedLinks,
         submissions: studentSubs,
       };
-    })
+    }),
   );
 
   return rankedStudents;

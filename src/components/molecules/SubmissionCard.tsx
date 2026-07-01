@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
+import { Award, Briefcase, FileText } from "lucide-react";
 import { Badge } from "@/components/atoms/Badge";
 import { PointChip } from "@/components/atoms/PointChip";
-import { FileText, Award, Briefcase } from "lucide-react";
 
 const typeIcons = {
   skill: Briefcase,

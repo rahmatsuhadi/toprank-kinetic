@@ -1,11 +1,21 @@
 import { config } from "dotenv";
+
 config({ path: ".env.local" });
 
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { user, rewards, opportunities, submissions, account, claims, session, verification } from "./schema";
 import * as schema from "./schema";
-import { eq } from "drizzle-orm";
+import {
+  account,
+  claims,
+  opportunities,
+  rewards,
+  session,
+  submissions,
+  user,
+  verification,
+} from "./schema";
 
 const dummyStudents = [
   {
@@ -16,19 +26,24 @@ const dummyStudents = [
     prodi: "Teknik Informatika",
     angkatan: "2022",
     bio: "Web Developer yang suka ngulik React, Next.js, dan Node.js. Punya mimpi bikin startup sendiri. ✨",
-    socialLinks: JSON.stringify({ github: "github.com/budis", linkedin: "linkedin.com/in/budis" }),
+    socialLinks: JSON.stringify({
+      github: "github.com/budis",
+      linkedin: "linkedin.com/in/budis",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Frontend Development",
-        description: "Menguasai pembuatan website interaktif menggunakan React dan Tailwind CSS.",
+        description:
+          "Menguasai pembuatan website interaktif menggunakan React dan Tailwind CSS.",
         proofUrl: "https://github.com/budis/portfolio",
         pointsAwarded: 15,
       },
       {
         type: "portfolio" as const,
         title: "Portal Pengumuman Kampus",
-        description: "Membangun sistem informasi mading online kampus menggunakan Next.js App Router.",
+        description:
+          "Membangun sistem informasi mading online kampus menggunakan Next.js App Router.",
         proofUrl: "https://github.com/budis/portal-kampus",
         portfolioLevel: "personal" as const,
         pointsAwarded: 25,
@@ -36,13 +51,14 @@ const dummyStudents = [
       {
         type: "certificate" as const,
         title: "Web Developer Expert",
-        description: "Sertifikasi keahlian pengembangan aplikasi web dari Dicoding.",
+        description:
+          "Sertifikasi keahlian pengembangan aplikasi web dari Dicoding.",
         proofUrl: "https://dicoding.com/certificates/budis",
         certificateName: "Dicoding Certified Web Expert",
         certificateLevel: "nasional" as const,
         pointsAwarded: 30,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Clara Wijaya",
@@ -52,19 +68,24 @@ const dummyStudents = [
     prodi: "Sistem Informasi",
     angkatan: "2022",
     bio: "UI/UX Designer yang berfokus pada kemudahan aksesibilitas pengguna. Suka bikin design system di Figma. 🎨",
-    socialLinks: JSON.stringify({ linkedin: "linkedin.com/in/claraw", behance: "behance.net/claraw" }),
+    socialLinks: JSON.stringify({
+      linkedin: "linkedin.com/in/claraw",
+      behance: "behance.net/claraw",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "UI/UX Design",
-        description: "Mahir merancang wireframe, user flow, dan high-fidelity mockup di Figma.",
+        description:
+          "Mahir merancang wireframe, user flow, dan high-fidelity mockup di Figma.",
         proofUrl: "https://figma.com/@claraw",
         pointsAwarded: 20,
       },
       {
         type: "portfolio" as const,
         title: "Redesign App Perpustakaan Kampus",
-        description: "Merancang ulang antarmuka aplikasi mobile perpustakaan agar lebih ramah bagi mahasiswa baru.",
+        description:
+          "Merancang ulang antarmuka aplikasi mobile perpustakaan agar lebih ramah bagi mahasiswa baru.",
         proofUrl: "https://behance.net/gallery/claraw-perpus",
         portfolioLevel: "freelance" as const,
         pointsAwarded: 35,
@@ -72,13 +93,14 @@ const dummyStudents = [
       {
         type: "certificate" as const,
         title: "Google UX Design Professional",
-        description: "Program sertifikasi profesional Google UX Design di Coursera.",
+        description:
+          "Program sertifikasi profesional Google UX Design di Coursera.",
         proofUrl: "https://coursera.org/verify/claraw-ux",
         certificateName: "Google UX Design Professional Certificate",
         certificateLevel: "internasional" as const,
         pointsAwarded: 50,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Farhan Ramadhan",
@@ -88,24 +110,29 @@ const dummyStudents = [
     prodi: "Teknik Informatika",
     angkatan: "2023",
     bio: "Penggemar Python dan pengolahan data. Senang bereksperimen dengan model machine learning sederhana. 🐍",
-    socialLinks: JSON.stringify({ github: "github.com/farhanr", linkedin: "linkedin.com/in/farhanr" }),
+    socialLinks: JSON.stringify({
+      github: "github.com/farhanr",
+      linkedin: "linkedin.com/in/farhanr",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Python Data Analysis",
-        description: "Menganalisis dataset menggunakan library Pandas, Numpy, dan Matplotlib.",
+        description:
+          "Menganalisis dataset menggunakan library Pandas, Numpy, dan Matplotlib.",
         proofUrl: "https://github.com/farhanr/data-analysis",
         pointsAwarded: 15,
       },
       {
         type: "portfolio" as const,
         title: "Prediksi Harga Rumah",
-        description: "Membuat model regresi linear untuk memprediksi harga rumah berdasarkan luas tanah dan lokasi.",
+        description:
+          "Membuat model regresi linear untuk memprediksi harga rumah berdasarkan luas tanah dan lokasi.",
         proofUrl: "https://github.com/farhanr/house-pricing",
         portfolioLevel: "personal" as const,
         pointsAwarded: 20,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Gita Lestari",
@@ -115,25 +142,30 @@ const dummyStudents = [
     prodi: "Ilmu Komunikasi",
     angkatan: "2021",
     bio: "Content Writer yang suka menulis esai, artikel teknologi, dan SEO copywriting. ✍️",
-    socialLinks: JSON.stringify({ linkedin: "linkedin.com/in/gitalestari", medium: "medium.com/@gitalestari" }),
+    socialLinks: JSON.stringify({
+      linkedin: "linkedin.com/in/gitalestari",
+      medium: "medium.com/@gitalestari",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "SEO Copywriting",
-        description: "Menulis artikel berkualitas tinggi yang dioptimalkan untuk mesin pencari.",
+        description:
+          "Menulis artikel berkualitas tinggi yang dioptimalkan untuk mesin pencari.",
         proofUrl: "https://medium.com/@gitalestari",
         pointsAwarded: 15,
       },
       {
         type: "certificate" as const,
         title: "Sertifikasi Hubspot Inbound Marketing",
-        description: "Sertifikasi Inbound Marketing resmi dari Hubspot Academy.",
+        description:
+          "Sertifikasi Inbound Marketing resmi dari Hubspot Academy.",
         proofUrl: "https://academy.hubspot.com/certificates/gita",
         certificateName: "Hubspot Inbound Marketing Certified",
         certificateLevel: "internasional" as const,
         pointsAwarded: 40,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Hendra Wijaya",
@@ -143,24 +175,29 @@ const dummyStudents = [
     prodi: "Desain Komunikasi Visual",
     angkatan: "2022",
     bio: "Video Editor & Motion Designer. Bikin konten kreatif dan sinematik adalah jalan ninjaku. 🎬",
-    socialLinks: JSON.stringify({ instagram: "instagram.com/hendraw", youtube: "youtube.com/hendraw" }),
+    socialLinks: JSON.stringify({
+      instagram: "instagram.com/hendraw",
+      youtube: "youtube.com/hendraw",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Video Editing",
-        description: "Editing video menggunakan Adobe Premiere Pro dan After Effects.",
+        description:
+          "Editing video menggunakan Adobe Premiere Pro dan After Effects.",
         proofUrl: "https://youtube.com/hendraw/portfolio",
         pointsAwarded: 20,
       },
       {
         type: "portfolio" as const,
         title: "Video Profil Jurusan DKV",
-        description: "Memproduksi video cinematic promosi jurusan DKV untuk kebutuhan pendaftaran mahasiswa baru.",
+        description:
+          "Memproduksi video cinematic promosi jurusan DKV untuk kebutuhan pendaftaran mahasiswa baru.",
         proofUrl: "https://youtube.com/watch?v=dkv-profile",
         portfolioLevel: "industri" as const,
         pointsAwarded: 40,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Indah Permata",
@@ -175,7 +212,8 @@ const dummyStudents = [
       {
         type: "skill" as const,
         title: "Data Visualization",
-        description: "Membuat dashboard interaktif menggunakan Tableau dan Google Looker Studio.",
+        description:
+          "Membuat dashboard interaktif menggunakan Tableau dan Google Looker Studio.",
         proofUrl: "https://public.tableau.com/profile/indahp",
         pointsAwarded: 15,
       },
@@ -187,8 +225,8 @@ const dummyStudents = [
         certificateName: "Sertifikasi BNSP Junior Data Analyst",
         certificateLevel: "nasional" as const,
         pointsAwarded: 35,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Kevin Sanjaya",
@@ -198,24 +236,29 @@ const dummyStudents = [
     prodi: "Teknik Informatika",
     angkatan: "2022",
     bio: "Mobile App Developer dengan kecintaan khusus pada Flutter. Suka ngoprek state management Bloc dan Riverpod. 📱",
-    socialLinks: JSON.stringify({ github: "github.com/kevins", linkedin: "linkedin.com/in/kevins" }),
+    socialLinks: JSON.stringify({
+      github: "github.com/kevins",
+      linkedin: "linkedin.com/in/kevins",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Flutter Development",
-        description: "Mengembangkan aplikasi cross-platform Android & iOS dengan Flutter.",
+        description:
+          "Mengembangkan aplikasi cross-platform Android & iOS dengan Flutter.",
         proofUrl: "https://github.com/kevins/flutter-apps",
         pointsAwarded: 20,
       },
       {
         type: "portfolio" as const,
         title: "Aplikasi Kasirku",
-        description: "Membangun aplikasi POS (Point of Sales) offline-first untuk UMKM lokal.",
+        description:
+          "Membangun aplikasi POS (Point of Sales) offline-first untuk UMKM lokal.",
         proofUrl: "https://github.com/kevins/kasirku-app",
         portfolioLevel: "freelance" as const,
         pointsAwarded: 30,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Larasati Putri",
@@ -225,12 +268,16 @@ const dummyStudents = [
     prodi: "Teknik Informatika",
     angkatan: "2023",
     bio: "Keamanan siber adalah passion saya. Senang belajar ethical hacking dan konfigurasi jaringan Cisco. 🛡️",
-    socialLinks: JSON.stringify({ github: "github.com/larasputri", linkedin: "linkedin.com/in/larasputri" }),
+    socialLinks: JSON.stringify({
+      github: "github.com/larasputri",
+      linkedin: "linkedin.com/in/larasputri",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Network Configuration",
-        description: "Konfigurasi routing, switching, dan firewall pada jaringan lokal.",
+        description:
+          "Konfigurasi routing, switching, dan firewall pada jaringan lokal.",
         proofUrl: "https://github.com/larasputri/networking",
         pointsAwarded: 15,
       },
@@ -242,8 +289,8 @@ const dummyStudents = [
         certificateName: "Cisco Certified Network Associate (CCNA)",
         certificateLevel: "internasional" as const,
         pointsAwarded: 45,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Muhammad Rizky",
@@ -253,24 +300,29 @@ const dummyStudents = [
     prodi: "Teknik Informatika",
     angkatan: "2022",
     bio: "Backend Engineer yang senang mendesain API bersih, performan, dan aman. Docker & Go adalah andalan. ⚙️",
-    socialLinks: JSON.stringify({ github: "github.com/rizkym", linkedin: "linkedin.com/in/rizkym" }),
+    socialLinks: JSON.stringify({
+      github: "github.com/rizkym",
+      linkedin: "linkedin.com/in/rizkym",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Backend API Development",
-        description: "Membuat RESTful API dengan Go Fiber, Gorm, dan database PostgreSQL.",
+        description:
+          "Membuat RESTful API dengan Go Fiber, Gorm, dan database PostgreSQL.",
         proofUrl: "https://github.com/rizkym/go-api",
         pointsAwarded: 20,
       },
       {
         type: "portfolio" as const,
         title: "Sistem Antrean Klinik",
-        description: "Microservice backend antrean klinik terintegrasi dengan redis cache.",
+        description:
+          "Microservice backend antrean klinik terintegrasi dengan redis cache.",
         proofUrl: "https://github.com/rizkym/klinik-service",
         portfolioLevel: "industri" as const,
         pointsAwarded: 40,
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Nadine Amelia",
@@ -280,25 +332,30 @@ const dummyStudents = [
     prodi: "Desain Komunikasi Visual",
     angkatan: "2021",
     bio: "Illustrator 2D dan desainer grafis. Suka menceritakan kisah lewat ilustrasi warna-warni hangat. 🌸",
-    socialLinks: JSON.stringify({ instagram: "instagram.com/nadineart", behance: "behance.net/nadineart" }),
+    socialLinks: JSON.stringify({
+      instagram: "instagram.com/nadineart",
+      behance: "behance.net/nadineart",
+    }),
     submissions: [
       {
         type: "skill" as const,
         title: "Vector Illustration",
-        description: "Menggambar ilustrasi flat art dan vector menggunakan Adobe Illustrator.",
+        description:
+          "Menggambar ilustrasi flat art dan vector menggunakan Adobe Illustrator.",
         proofUrl: "https://behance.net/nadineart/illustrations",
         pointsAwarded: 15,
       },
       {
         type: "portfolio" as const,
         title: "Desain Maskot Dies Natalis",
-        description: "Menciptakan desain karakter dan maskot resmi untuk perayaan Dies Natalis Kampus ke-20.",
+        description:
+          "Menciptakan desain karakter dan maskot resmi untuk perayaan Dies Natalis Kampus ke-20.",
         proofUrl: "https://behance.net/gallery/diesnatalis-mascot",
         portfolioLevel: "personal" as const,
         pointsAwarded: 25,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 async function seed() {
@@ -352,10 +409,10 @@ async function seed() {
       });
       userId = ctx.user.id;
       console.log(`  ✓ Student created via Better Auth: ${s.email}`);
-    } catch (e) {
+    } catch (_e) {
       // If student already exists in Better Auth, find their ID
       const existingUser = await db.query.user.findFirst({
-        where: eq(user.email, s.email)
+        where: eq(user.email, s.email),
       });
       if (existingUser) {
         userId = existingUser.id;
@@ -365,17 +422,23 @@ async function seed() {
 
     if (userId) {
       // Calculate total points from submissions
-      const totalPoints = s.submissions.reduce((acc, curr) => acc + curr.pointsAwarded, 0);
+      const totalPoints = s.submissions.reduce(
+        (acc, curr) => acc + curr.pointsAwarded,
+        0,
+      );
 
       // Update custom fields with Drizzle
-      await db.update(user).set({
-        nim: s.nim,
-        bio: s.bio,
-        prodi: s.prodi,
-        angkatan: s.angkatan,
-        socialLinks: s.socialLinks,
-        totalPoints: totalPoints,
-      }).where(eq(user.id, userId));
+      await db
+        .update(user)
+        .set({
+          nim: s.nim,
+          bio: s.bio,
+          prodi: s.prodi,
+          angkatan: s.angkatan,
+          socialLinks: s.socialLinks,
+          totalPoints: totalPoints,
+        })
+        .where(eq(user.id, userId));
 
       // Clean existing submissions for this user to avoid duplicates on re-seed
       await db.delete(submissions).where(eq(submissions.userId, userId));
@@ -395,7 +458,9 @@ async function seed() {
           portfolioLevel: (sub as any).portfolioLevel || null,
         });
       }
-      console.log(`    → Seeded ${s.submissions.length} submissions for ${s.name} (Total Points: ${totalPoints})`);
+      console.log(
+        `    → Seeded ${s.submissions.length} submissions for ${s.name} (Total Points: ${totalPoints})`,
+      );
     }
   }
 

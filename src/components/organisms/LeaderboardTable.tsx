@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import {
+  ArrowRight,
+  CheckCircle,
+  ChevronDown,
+  Trophy,
+  Zap,
+} from "lucide-react";
 import Link from "next/link";
-import { Trophy, Medal, Award, CheckCircle, ChevronDown, Zap, ArrowRight } from "lucide-react";
 
 interface LeaderboardEntry {
   id: string;
@@ -16,7 +21,7 @@ interface LeaderboardEntry {
 
 interface LeaderboardTableProps {
   leaderboard: LeaderboardEntry[];
-  currentUser?: (LeaderboardEntry & { email: string }) | null;
+  currentUser?: LeaderboardEntry | null;
   sessionUser?: {
     id: string;
     name: string;
@@ -42,8 +47,11 @@ export function LeaderboardTable({
   const restList = leaderboard.filter((u) => u.rank > 3);
 
   // Find current user's rank
-  const userRankIndex = sessionUser ? leaderboard.findIndex((u) => u.id === sessionUser.id) : -1;
-  const myRank = userRankIndex !== -1 ? userRankIndex + 1 : (currentUser?.rank ?? 42);
+  const userRankIndex = sessionUser
+    ? leaderboard.findIndex((u) => u.id === sessionUser.id)
+    : -1;
+  const myRank =
+    userRankIndex !== -1 ? userRankIndex + 1 : (currentUser?.rank ?? 42);
 
   // Ordinal suffix formatter
   function getOrdinal(n: number) {
@@ -63,10 +71,11 @@ export function LeaderboardTable({
               Papan Peringkat Talenta
             </h1>
             <p className="text-body-md text-[var(--on-surface-variant)] mt-1 max-w-2xl leading-relaxed">
-              Menampilkan mahasiswa dengan kinerja tertinggi di semua disiplin ilmu. Bersainglah, verifikasi keahlianmu, dan raih peringkat teratas.
+              Menampilkan mahasiswa dengan kinerja tertinggi di semua disiplin
+              ilmu. Bersainglah, verifikasi keahlianmu, dan raih peringkat
+              teratas.
             </p>
           </div>
-
         </div>
 
         {/* Top 3 Podium Row */}
@@ -102,7 +111,9 @@ export function LeaderboardTable({
                 </div>
 
                 <div className="border-t border-[var(--outline-variant)] pt-3 mt-4 w-full flex justify-between items-center text-xs">
-                  <span className="text-[10px] text-[var(--on-surface-variant)] font-semibold uppercase">Total Poin</span>
+                  <span className="text-[10px] text-[var(--on-surface-variant)] font-semibold uppercase">
+                    Total Poin
+                  </span>
                   <span className="font-extrabold text-[var(--on-surface)]">
                     {top2.totalPoints.toLocaleString()}
                   </span>
@@ -143,7 +154,9 @@ export function LeaderboardTable({
                 </div>
 
                 <div className="border-t border-[var(--outline-variant)] pt-3 mt-4 w-full flex justify-between items-center text-xs">
-                  <span className="text-[10px] text-[var(--on-surface-variant)] font-semibold uppercase">Total Poin</span>
+                  <span className="text-[10px] text-[var(--on-surface-variant)] font-semibold uppercase">
+                    Total Poin
+                  </span>
                   <span className="font-extrabold text-[#4F46E5] text-sm">
                     {top1.totalPoints.toLocaleString()}
                   </span>
@@ -181,7 +194,9 @@ export function LeaderboardTable({
                 </div>
 
                 <div className="border-t border-[var(--outline-variant)] pt-3 mt-4 w-full flex justify-between items-center text-xs">
-                  <span className="text-[10px] text-[var(--on-surface-variant)] font-semibold uppercase">Total Poin</span>
+                  <span className="text-[10px] text-[var(--on-surface-variant)] font-semibold uppercase">
+                    Total Poin
+                  </span>
                   <span className="font-extrabold text-[var(--on-surface)]">
                     {top3.totalPoints.toLocaleString()}
                   </span>
@@ -191,7 +206,9 @@ export function LeaderboardTable({
           </div>
         ) : (
           <div className="elevation-1 rounded-[var(--rounded-xl)] bg-[var(--surface-container-low)] border border-[var(--outline-variant)] p-8 text-center">
-            <p className="text-sm text-[var(--on-surface-variant)]">Belum ada data mahasiswa di papan peringkat.</p>
+            <p className="text-sm text-[var(--on-surface-variant)]">
+              Belum ada data mahasiswa di papan peringkat.
+            </p>
           </div>
         )}
 
@@ -227,8 +244,12 @@ export function LeaderboardTable({
                             {entry.name.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <p className="font-bold text-[var(--on-surface)]">{entry.name}</p>
-                            <p className="text-[10px] text-[var(--on-surface-variant)]">Aktif</p>
+                            <p className="font-bold text-[var(--on-surface)]">
+                              {entry.name}
+                            </p>
+                            <p className="text-[10px] text-[var(--on-surface-variant)]">
+                              Aktif
+                            </p>
                           </div>
                         </div>
                       </td>
@@ -273,8 +294,12 @@ export function LeaderboardTable({
           <div className="flex items-center gap-6 w-full md:w-auto">
             {/* Current Rank */}
             <div className="shrink-0 text-center border-r border-indigo-800 pr-6">
-              <p className="text-[10px] opacity-60 uppercase tracking-widest">PERINGKAT KAMU</p>
-              <p className="text-2xl font-black text-yellow-400 mt-0.5">{getOrdinal(myRank)}</p>
+              <p className="text-[10px] opacity-60 uppercase tracking-widest">
+                PERINGKAT KAMU
+              </p>
+              <p className="text-2xl font-black text-yellow-400 mt-0.5">
+                {getOrdinal(myRank)}
+              </p>
             </div>
 
             {/* User Profile Info */}
@@ -284,14 +309,15 @@ export function LeaderboardTable({
               </div>
               <div>
                 <p className="text-sm font-bold">{sessionUser.name} (Kamu)</p>
-                <p className="text-[10px] opacity-75">Terus berjuang! Kamu berada di top 5% jurusanmu.</p>
+                <p className="text-[10px] opacity-75">
+                  Terus berjuang! Kamu berada di top 5% jurusanmu.
+                </p>
               </div>
             </div>
           </div>
 
           {/* Progress Bar & Next Tier Target */}
           <div className="flex items-center gap-6 w-full md:w-auto flex-1 md:max-w-md justify-end">
-
             <Link href="/mahasiswa/submissions/baru">
               <button className="bg-white hover:bg-yellow-400 text-indigo-950 font-bold px-4 py-2 rounded-[var(--rounded-md)] text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0 hover:scale-105 active:scale-95">
                 <Zap className="h-3.5 w-3.5" />

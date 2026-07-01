@@ -1,10 +1,17 @@
+import {
+  Award,
+  Briefcase,
+  CheckCircle,
+  FileText,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getDashboardStats } from "@/actions/students";
 import { getPendingSubmissions } from "@/actions/submissions";
-import { StatCard } from "@/components/molecules/StatCard";
 import { Badge } from "@/components/atoms/Badge";
-import { Users, FileText, ShieldCheck, CheckCircle, Award, Briefcase } from "lucide-react";
-import Link from "next/link";
+import { StatCard } from "@/components/molecules/StatCard";
 
 export const metadata: Metadata = {
   title: "Dashboard Admin — Kinetic Academy",

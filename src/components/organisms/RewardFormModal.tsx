@@ -1,9 +1,9 @@
 "use client";
 
+import { X } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/atoms/Button";
 import { FormField } from "@/components/molecules/FormField";
-import { X } from "lucide-react";
 
 interface RewardFormModalProps {
   isOpen: boolean;
@@ -84,7 +84,8 @@ export function RewardFormModal({
                 name: "title",
                 defaultValue: initialData?.title || "",
                 placeholder: "Masukkan nama reward (misal: Voucher Kantin)",
-                className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
+                className:
+                  "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
               }}
             />
 
@@ -98,7 +99,8 @@ export function RewardFormModal({
                 defaultValue: initialData?.description || "",
                 placeholder: "Jelaskan detail reward dan syarat klaimnya...",
                 rows: 3,
-                className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
+                className:
+                  "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
               }}
             />
 
@@ -113,7 +115,8 @@ export function RewardFormModal({
                   min: 1,
                   defaultValue: initialData?.pointsCost ?? "",
                   placeholder: "10",
-                  className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
+                  className:
+                    "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
                 }}
               />
               <FormField
@@ -124,9 +127,13 @@ export function RewardFormModal({
                   name: "stock",
                   type: "number",
                   min: 0,
-                  defaultValue: initialData !== undefined && initialData !== null ? initialData.stock : "",
+                  defaultValue:
+                    initialData !== undefined && initialData !== null
+                      ? initialData.stock
+                      : "",
                   placeholder: "50",
-                  className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
+                  className:
+                    "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
                 }}
               />
             </div>

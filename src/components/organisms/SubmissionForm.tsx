@@ -1,21 +1,27 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/atoms/Button";
-import { FormField } from "@/components/molecules/FormField";
-import { createSubmission } from "@/actions/submissions";
-import { toast } from "sonner";
 import {
-  Send,
   Award,
   Briefcase,
-  Zap,
-  Globe,
   CheckCircle,
+  Globe,
   HelpCircle,
+  Zap,
 } from "lucide-react";
-import { type CertificateLevel, type PortfolioLevel, SKILL_POINTS, CERTIFICATE_POINTS, PORTFOLIO_POINTS, SKILL_BASE_POINTS } from "@/config/point-rules";
+import { useRouter } from "next/navigation";
+import { useActionState, useState } from "react";
+import { toast } from "sonner";
+import { createSubmission } from "@/actions/submissions";
+import { Button } from "@/components/atoms/Button";
+import { FormField } from "@/components/molecules/FormField";
+import {
+  CERTIFICATE_POINTS,
+  type CertificateLevel,
+  PORTFOLIO_POINTS,
+  type PortfolioLevel,
+  SKILL_BASE_POINTS,
+  SKILL_POINTS,
+} from "@/config/point-rules";
 
 const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -34,7 +40,9 @@ const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export function SubmissionForm() {
   const router = useRouter();
-  const [selectedType, setSelectedType] = useState<"skill_cert" | "portfolio">("skill_cert");
+  const [selectedType, setSelectedType] = useState<"skill_cert" | "portfolio">(
+    "skill_cert",
+  );
   const [hasCertificate, setHasCertificate] = useState(false);
   const [certLevel, setCertLevel] = useState<CertificateLevel>("nasional");
   const [portLevel, setPortLevel] = useState<PortfolioLevel>("personal");
@@ -55,7 +63,7 @@ export function SubmissionForm() {
       if (hasCertificate) {
         formData.set("type", "certificate");
         formData.set("certificateLevel", certLevel);
-        
+
         // Ambil nama sertifikat dari input certificateName
         const certName = formData.get("certificateName") as string;
         if (!certName || !certName.trim()) {
@@ -71,7 +79,9 @@ export function SubmissionForm() {
     if (result.error) return result.error;
     toast.success("Pengajuan berhasil dikirim! Menunggu verifikasi admin.");
     // Reset form fields
-    const formEl = document.getElementById("submission-form") as HTMLFormElement;
+    const formEl = document.getElementById(
+      "submission-form",
+    ) as HTMLFormElement;
     if (formEl) formEl.reset();
     setSelectedSkill("");
     setHasCertificate(false);
@@ -89,7 +99,9 @@ export function SubmissionForm() {
           Ajukan Verifikasi
         </h1>
         <p className="text-body-md text-[var(--on-surface-variant)] mt-1">
-          Tingkatkan profilmu dengan memamerkan pencapaian terbarumu. Pengajuan yang terverifikasi akan mendapatkan poin yang berkontribusi pada peringkatmu.
+          Tingkatkan profilmu dengan memamerkan pencapaian terbarumu. Pengajuan
+          yang terverifikasi akan mendapatkan poin yang berkontribusi pada
+          peringkatmu.
         </p>
       </div>
 
@@ -138,7 +150,8 @@ export function SubmissionForm() {
                   Keahlian & Sertifikat
                 </h4>
                 <p className="text-xs text-[var(--on-surface-variant)] mt-1">
-                  Deklarasi keahlian teknis atau unggah sertifikat resmi untuk poin yang lebih tinggi.
+                  Deklarasi keahlian teknis atau unggah sertifikat resmi untuk
+                  poin yang lebih tinggi.
                 </p>
               </div>
             </button>
@@ -189,7 +202,8 @@ export function SubmissionForm() {
                   id="title"
                   required
                   inputProps={{
-                    placeholder: "Contoh: TypeScript Programming, UI/UX Design, Python...",
+                    placeholder:
+                      "Contoh: TypeScript Programming, UI/UX Design, Python...",
                     value: selectedSkill,
                     onChange: (e) => setSelectedSkill(e.target.value),
                     list: "skills-list",
@@ -214,7 +228,8 @@ export function SubmissionForm() {
                         Saya memiliki sertifikat pendukung untuk keahlian ini
                       </span>
                       <p className="text-xs text-[var(--on-surface-variant)]">
-                        Sertifikat resmi akan meningkatkan perolehan poin Anda berdasarkan tingkatannya.
+                        Sertifikat resmi akan meningkatkan perolehan poin Anda
+                        berdasarkan tingkatannya.
                       </p>
                     </div>
                   </label>
@@ -226,7 +241,8 @@ export function SubmissionForm() {
                         id="certificateName"
                         required
                         inputProps={{
-                          placeholder: "Contoh: AWS Certified Solutions Architect",
+                          placeholder:
+                            "Contoh: AWS Certified Solutions Architect",
                         }}
                       />
                       <FormField
@@ -237,13 +253,25 @@ export function SubmissionForm() {
                         selectProps={{
                           value: certLevel,
                           onChange: (e) =>
-                            setCertLevel((e.target as HTMLSelectElement).value as CertificateLevel),
+                            setCertLevel(
+                              (e.target as HTMLSelectElement)
+                                .value as CertificateLevel,
+                            ),
                           children: (
                             <>
-                              <option value="lokal">Lokal ({CERTIFICATE_POINTS.lokal} Poin)</option>
-                              <option value="regional">Regional ({CERTIFICATE_POINTS.regional} Poin)</option>
-                              <option value="nasional">Nasional ({CERTIFICATE_POINTS.nasional} Poin)</option>
-                              <option value="internasional">Internasional ({CERTIFICATE_POINTS.internasional} Poin)</option>
+                              <option value="lokal">
+                                Lokal ({CERTIFICATE_POINTS.lokal} Poin)
+                              </option>
+                              <option value="regional">
+                                Regional ({CERTIFICATE_POINTS.regional} Poin)
+                              </option>
+                              <option value="nasional">
+                                Nasional ({CERTIFICATE_POINTS.nasional} Poin)
+                              </option>
+                              <option value="internasional">
+                                Internasional (
+                                {CERTIFICATE_POINTS.internasional} Poin)
+                              </option>
                             </>
                           ),
                         }}
@@ -260,16 +288,20 @@ export function SubmissionForm() {
                       {hasCertificate
                         ? `${CERTIFICATE_POINTS[certLevel]} Poin`
                         : selectedSkill
-                        ? `${(() => {
-                            const normalized = selectedSkill.trim().toLowerCase();
-                            const match = Object.keys(SKILL_POINTS).find(
-                              (k) => k.toLowerCase() === normalized
-                            );
-                            return match
-                              ? SKILL_POINTS[match as keyof typeof SKILL_POINTS]
-                              : SKILL_BASE_POINTS;
-                          })()} Poin`
-                        : "0 Poin"}
+                          ? `${(() => {
+                              const normalized = selectedSkill
+                                .trim()
+                                .toLowerCase();
+                              const match = Object.keys(SKILL_POINTS).find(
+                                (k) => k.toLowerCase() === normalized,
+                              );
+                              return match
+                                ? SKILL_POINTS[
+                                    match as keyof typeof SKILL_POINTS
+                                  ]
+                                : SKILL_BASE_POINTS;
+                            })()} Poin`
+                          : "0 Poin"}
                     </span>
                   </div>
                 </div>
@@ -293,12 +325,22 @@ export function SubmissionForm() {
                   selectProps={{
                     value: portLevel,
                     onChange: (e) =>
-                      setPortLevel((e.target as HTMLSelectElement).value as PortfolioLevel),
+                      setPortLevel(
+                        (e.target as HTMLSelectElement).value as PortfolioLevel,
+                      ),
                     children: (
                       <>
-                        <option value="personal">Proyek Personal ({PORTFOLIO_POINTS.personal} Poin)</option>
-                        <option value="freelance">Proyek Freelance / Klien ({PORTFOLIO_POINTS.freelance} Poin)</option>
-                        <option value="industri">Proyek Industri / Perusahaan ({PORTFOLIO_POINTS.industri} Poin)</option>
+                        <option value="personal">
+                          Proyek Personal ({PORTFOLIO_POINTS.personal} Poin)
+                        </option>
+                        <option value="freelance">
+                          Proyek Freelance / Klien ({PORTFOLIO_POINTS.freelance}{" "}
+                          Poin)
+                        </option>
+                        <option value="industri">
+                          Proyek Industri / Perusahaan (
+                          {PORTFOLIO_POINTS.industri} Poin)
+                        </option>
                       </>
                     ),
                   }}
@@ -350,8 +392,8 @@ export function SubmissionForm() {
                     selectedType === "portfolio"
                       ? "Link Repositori (GitHub/GitLab/Bitbucket)"
                       : hasCertificate
-                      ? "Link Verifikasi / Link Sertifikat di Google Drive atau Credential URL"
-                      : "Link Bukti Pendukung (GitHub, Post LinkedIn, Google Drive, dll.)"
+                        ? "Link Verifikasi / Link Sertifikat di Google Drive atau Credential URL"
+                        : "Link Bukti Pendukung (GitHub, Post LinkedIn, Google Drive, dll.)"
                   }
                   className="w-full rounded-[var(--rounded-md)] border border-[var(--outline-variant)] bg-[var(--surface)] pl-10 pr-3 py-2 text-sm focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)]"
                 />
@@ -385,7 +427,11 @@ export function SubmissionForm() {
               Verifikasi Aman · Penyimpanan Terenkripsi
             </div>
 
-            <Button type="submit" isLoading={isPending} className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white">
+            <Button
+              type="submit"
+              isLoading={isPending}
+              className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white"
+            >
               Ajukan untuk Ditinjau
             </Button>
           </div>
@@ -404,21 +450,33 @@ export function SubmissionForm() {
               <div className="flex gap-2">
                 <div className="h-2 w-2 rounded-full bg-[var(--primary)] mt-1.5 shrink-0" />
                 <p className="text-[var(--on-surface-variant)]">
-                  <strong className="text-[var(--on-surface)]">Bukti Resmi:</strong> Sertifikat harus mencantumkan nama lengkapmu, organisasi penerbit, dan tanggal penyelesaian secara jelas.
+                  <strong className="text-[var(--on-surface)]">
+                    Bukti Resmi:
+                  </strong>{" "}
+                  Sertifikat harus mencantumkan nama lengkapmu, organisasi
+                  penerbit, dan tanggal penyelesaian secara jelas.
                 </p>
               </div>
 
               <div className="flex gap-2">
                 <div className="h-2 w-2 rounded-full bg-[var(--primary)] mt-1.5 shrink-0" />
                 <p className="text-[var(--on-surface-variant)]">
-                  <strong className="text-[var(--on-surface)]">Proyek Aktif:</strong> Proyek portofolio harus menyertakan link publik atau repositori kode yang terdokumentasi (GitHub/GitLab).
+                  <strong className="text-[var(--on-surface)]">
+                    Proyek Aktif:
+                  </strong>{" "}
+                  Proyek portofolio harus menyertakan link publik atau
+                  repositori kode yang terdokumentasi (GitHub/GitLab).
                 </p>
               </div>
 
               <div className="flex gap-2">
                 <div className="h-2 w-2 rounded-full bg-[var(--primary)] mt-1.5 shrink-0" />
                 <p className="text-[var(--on-surface-variant)]">
-                  <strong className="text-[var(--on-surface)]">Siklus Peninjauan:</strong> Proses persetujuan admin biasanya memakan waktu 48-72 jam. Kamu akan menerima notifikasi setelah pengajuan diverifikasi.
+                  <strong className="text-[var(--on-surface)]">
+                    Siklus Peninjauan:
+                  </strong>{" "}
+                  Proses persetujuan admin biasanya memakan waktu 48-72 jam.
+                  Kamu akan menerima notifikasi setelah pengajuan diverifikasi.
                 </p>
               </div>
             </div>

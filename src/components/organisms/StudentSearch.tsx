@@ -1,24 +1,10 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { Search, User } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
+import { searchStudents } from "@/actions/students";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
-import { PointChip } from "@/components/atoms/PointChip";
-import { searchStudents } from "@/actions/students";
-import {
-  Search,
-  Mail,
-  Copy,
-  User,
-  MessageSquare,
-  Calendar,
-  BookOpen,
-  Award,
-  Briefcase,
-  Zap,
-  X,
-} from "lucide-react";
-import { toast } from "sonner";
 import { PortfolioContent } from "@/components/organisms/PortfolioContent";
 
 interface Submission {
@@ -106,19 +92,22 @@ export function StudentSearch() {
     startTransition(async () => {
       const data = await searchStudents(
         query || undefined,
-        minPoints ? Number(minPoints) : undefined
+        minPoints ? Number(minPoints) : undefined,
       );
       setResults(data as unknown as Student[]);
       setSearched(true);
     });
   }
 
-  function getWhatsAppLink(student: Student) {
-    const phone = student.socialLinks.phone || student.socialLinks.whatsapp || "";
+  function _getWhatsAppLink(student: Student) {
+    const phone =
+      student.socialLinks.phone || student.socialLinks.whatsapp || "";
     // Clean phone number from non-digit characters
     const cleanPhone = phone.replace(/\D/g, "");
     // If starts with 0, replace with 62
-    const formattedPhone = cleanPhone.startsWith("0") ? "62" + cleanPhone.slice(1) : cleanPhone;
+    const formattedPhone = cleanPhone.startsWith("0")
+      ? `62${cleanPhone.slice(1)}`
+      : cleanPhone;
     const message = `Halo ${student.name}, kami dari Administrator Kinetic Academy ingin mendiskusikan peluang industri/proyek dengan Anda...`;
     return `https://wa.me/${formattedPhone || "6281234567890"}?text=${encodeURIComponent(message)}`;
   }
@@ -198,7 +187,11 @@ export function StudentSearch() {
             }}
           />
         </div>
-        <Button onClick={handleSearch} isLoading={isPending} className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white">
+        <Button
+          onClick={handleSearch}
+          isLoading={isPending}
+          className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white"
+        >
           <Search className="h-4 w-4" />
           Cari Talenta
         </Button>
@@ -228,12 +221,14 @@ export function StudentSearch() {
                     <h3 className="text-md font-black text-[var(--on-surface)] flex items-center gap-1.5 flex-wrap">
                       {student.name}
                       <span className="text-xs font-normal text-[var(--on-surface-variant)]">
-                        ({student.prodi || "Mahasiswa"} - Angkatan {student.angkatan || "—"})
+                        ({student.prodi || "Mahasiswa"} - Angkatan{" "}
+                        {student.angkatan || "—"})
                       </span>
                     </h3>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="text-xs font-bold text-indigo-700 bg-indigo-50/80 px-2.5 py-1 rounded-full border border-indigo-100/50">
-                        🏅 Total Poin: {student.totalPoints} Poin (Peringkat #{student.rank} di Leaderboard)
+                        🏅 Total Poin: {student.totalPoints} Poin (Peringkat #
+                        {student.rank} di Leaderboard)
                       </span>
                     </div>
                   </div>
@@ -257,17 +252,25 @@ export function StudentSearch() {
                     </p>
                   ) : (
                     <ul className="flex flex-col gap-2">
-                      {getGroupedSkills(student.submissions).map((skill, index) => (
-                        <li key={index} className="text-xs text-[var(--on-surface)] font-medium flex items-center gap-2 flex-wrap">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5] shrink-0" />
-                          <span>{skill.title}</span>
-                          {skill.tags.map((tag, tagIndex) => (
-                            <span key={tagIndex} className="text-[9px] font-bold uppercase bg-indigo-50 text-[#4F46E5] px-1.5 py-0.5 rounded border border-indigo-100">
-                              {tag}
-                            </span>
-                          ))}
-                        </li>
-                      ))}
+                      {getGroupedSkills(student.submissions).map(
+                        (skill, index) => (
+                          <li
+                            key={index}
+                            className="text-xs text-[var(--on-surface)] font-medium flex items-center gap-2 flex-wrap"
+                          >
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5] shrink-0" />
+                            <span>{skill.title}</span>
+                            {skill.tags.map((tag, tagIndex) => (
+                              <span
+                                key={tagIndex}
+                                className="text-[9px] font-bold uppercase bg-indigo-50 text-[#4F46E5] px-1.5 py-0.5 rounded border border-indigo-100"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </li>
+                        ),
+                      )}
                     </ul>
                   )}
                 </div>

@@ -7,7 +7,11 @@ interface SkillChipProps {
   className?: string;
 }
 
-export function SkillChip({ label, verified = false, className }: SkillChipProps) {
+export function SkillChip({
+  label,
+  verified = false,
+  className,
+}: SkillChipProps) {
   return (
     <span
       className={clsx(

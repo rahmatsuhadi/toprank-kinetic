@@ -7,10 +7,8 @@ const badgeVariants = cva(
   {
     variants: {
       status: {
-        verified:
-          "bg-[var(--success-green)]/10 text-[var(--success-green)]",
-        pending:
-          "bg-[var(--status-pending)]/10 text-[var(--status-pending)]",
+        verified: "bg-[var(--success-green)]/10 text-[var(--success-green)]",
+        pending: "bg-[var(--status-pending)]/10 text-[var(--status-pending)]",
         rejected:
           "bg-[var(--status-rejected)]/10 text-[var(--status-rejected)]",
         neutral:
@@ -46,9 +44,7 @@ export function Badge({
 
   return (
     <span className={clsx(badgeVariants({ status }), className)}>
-      {showIcon && IconComponent ? (
-        <IconComponent className="h-3 w-3" />
-      ) : null}
+      {showIcon && IconComponent ? <IconComponent className="h-3 w-3" /> : null}
       {children}
     </span>
   );

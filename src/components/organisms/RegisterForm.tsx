@@ -1,12 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useActionState } from "react";
+import { toast } from "sonner";
+import { registerStudent } from "@/actions/auth";
 import { Button } from "@/components/atoms/Button";
 import { FormField } from "@/components/molecules/FormField";
-import { registerStudent } from "@/actions/auth";
-import { toast } from "sonner";
-import { UserPlus } from "lucide-react";
 
 export function RegisterForm() {
   const router = useRouter();

@@ -1,9 +1,9 @@
 "use server";
 
+import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { rewards, claims, user } from "@/db/schema";
+import { claims, rewards, user } from "@/db/schema";
 import { getCurrentUser } from "./auth";
-import { eq, desc, and, sql } from "drizzle-orm";
 
 export async function createReward(formData: FormData) {
   const session = await getCurrentUser();
@@ -29,10 +29,7 @@ export async function createReward(formData: FormData) {
   }
 }
 
-export async function updateReward(
-  rewardId: number,
-  formData: FormData,
-) {
+export async function updateReward(rewardId: number, formData: FormData) {
   const session = await getCurrentUser();
   if (!session || session.user.role !== "admin") {
     return { error: "Unauthorized" };

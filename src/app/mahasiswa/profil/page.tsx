@@ -1,11 +1,11 @@
+import { and, eq, sql } from "drizzle-orm";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/actions/auth";
 import { getMySubmissions } from "@/actions/submissions";
-import { redirect } from "next/navigation";
 import { PortfolioContent } from "@/components/organisms/PortfolioContent";
 import { db } from "@/db";
 import { user } from "@/db/schema";
-import { and, eq, sql } from "drizzle-orm";
 
 export const metadata: Metadata = {
   title: "Portofolio Saya — Kinetic Academy",
@@ -35,8 +35,8 @@ export default async function ProfilPage() {
     .where(
       and(
         eq(user.role, "mahasiswa"),
-        sql`${user.totalPoints} > ${u.totalPoints ?? 0}`
-      )
+        sql`${user.totalPoints} > ${u.totalPoints ?? 0}`,
+      ),
     );
   const rank = Number(rankCount?.count ?? 0) + 1;
 

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { getCurrentUser } from "@/actions/auth";
 import { redirect } from "next/navigation";
-import { getMySubmissions } from "@/actions/submissions";
+import { getCurrentUser } from "@/actions/auth";
 import { getLeaderboard } from "@/actions/leaderboard";
+import { getMySubmissions } from "@/actions/submissions";
 import { DashboardContent } from "./DashboardContent";
 
 export const metadata: Metadata = {
@@ -17,8 +17,10 @@ export default async function StudentDashboardPage() {
   const { leaderboard } = await getLeaderboard();
 
   const approvedSubs = submissions.filter((s) => s.status === "approved");
-  const pendingSubs = submissions.filter((s) => s.status === "pending");
-  const verifiedSkills = approvedSubs.filter((s) => s.type === "skill" || s.type === "certificate");
+  const _pendingSubs = submissions.filter((s) => s.status === "pending");
+  const verifiedSkills = approvedSubs.filter(
+    (s) => s.type === "skill" || s.type === "certificate",
+  );
   const portfolioProjects = approvedSubs.filter((s) => s.type === "portfolio");
 
   // Find user rank

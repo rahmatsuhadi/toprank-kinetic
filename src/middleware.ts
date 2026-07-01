@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const publicPaths = ["/", "/login", "/register", "/api/auth"];
 
@@ -7,15 +7,14 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public paths
-  if (publicPaths.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+  if (publicPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
     // Special: /api/auth is always public for Better Auth
     if (pathname.startsWith("/api/auth")) return NextResponse.next();
     return NextResponse.next();
   }
 
   // Check for session cookie (Better Auth uses a token cookie)
-  const sessionToken =
-    request.cookies.get("better-auth.session_token")?.value;
+  const sessionToken = request.cookies.get("better-auth.session_token")?.value;
 
   if (!sessionToken) {
     return NextResponse.redirect(new URL("/login", request.url));

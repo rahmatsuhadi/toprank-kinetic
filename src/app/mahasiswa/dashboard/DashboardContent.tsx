@@ -1,22 +1,18 @@
 "use client";
 
-import { PointChip } from "@/components/atoms/PointChip";
-import { Badge } from "@/components/atoms/Badge";
-import { Button } from "@/components/atoms/Button";
-import Link from "next/link";
 import {
-  Star,
+  Award,
   BadgeCheck,
   Briefcase,
-  Trophy,
-  ArrowRight,
-  Sparkles,
-  TrendingUp,
   FileText,
-  Award,
   Plus,
+  Star,
+  Trophy,
   Zap,
 } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/atoms/Button";
+import { PointChip } from "@/components/atoms/PointChip";
 
 interface DashboardContentProps {
   userName: string;
@@ -36,7 +32,7 @@ interface DashboardContentProps {
   topSkills: { name: string; points: number }[];
 }
 
-const statusMap = {
+const _statusMap = {
   pending: "pending",
   approved: "verified",
   rejected: "rejected",
@@ -81,14 +77,19 @@ export function DashboardContent({
             Welcome back, {firstName}!
           </h1>
           <p className="text-white/70 text-body-md mt-1 max-w-lg">
-            Portofoliomu terus berkembang. Terus tingkatkan skill dan raih lebih banyak poin!
+            Portofoliomu terus berkembang. Terus tingkatkan skill dan raih lebih
+            banyak poin!
           </p>
         </div>
 
         {/* Quick Actions */}
         <div className="relative z-10 flex gap-3 shrink-0 self-start sm:self-center">
           <Link href="/mahasiswa/submissions">
-            <Button variant="secondary" size="sm" className="!border-white/30 !text-white hover:!bg-white/15">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="!border-white/30 !text-white hover:!bg-white/15"
+            >
               <Plus className="h-3.5 w-3.5" />
               Ajukan Baru
             </Button>
@@ -175,7 +176,10 @@ export function DashboardContent({
                 { label: "50", pos: "50%" },
                 { label: "100", pos: "100%" },
               ].map((m) => (
-                <span key={m.label} className="text-xs text-[var(--outline)] font-mono">
+                <span
+                  key={m.label}
+                  className="text-xs text-[var(--outline)] font-mono"
+                >
                   {m.label}
                 </span>
               ))}
@@ -232,7 +236,7 @@ export function DashboardContent({
           ) : (
             <div className="flex flex-col gap-4">
               {submissions.map((sub) => {
-                const Icon = typeIcons[sub.type] ?? FileText;
+                const _Icon = typeIcons[sub.type] ?? FileText;
                 return (
                   <div key={sub.id} className="flex items-start gap-3">
                     <div
@@ -240,7 +244,9 @@ export function DashboardContent({
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[var(--on-surface)] truncate">
-                        {sub.type === "certificate" && sub.certificateName ? sub.certificateName : sub.title}
+                        {sub.type === "certificate" && sub.certificateName
+                          ? sub.certificateName
+                          : sub.title}
                       </p>
                       {sub.type === "certificate" && sub.certificateName && (
                         <p className="text-[10px] font-semibold text-[#4F46E5] mt-0.5">
@@ -267,7 +273,6 @@ export function DashboardContent({
       </div>
 
       {/* Bottom Row: Top Skills */}
-
     </div>
   );
 }
@@ -294,7 +299,9 @@ function StatItem({
         <Icon className={`h-5 w-5 ${iconColor}`} />
       </div>
       <div>
-        <p className="text-label-caps text-[var(--on-surface-variant)]">{label}</p>
+        <p className="text-label-caps text-[var(--on-surface-variant)]">
+          {label}
+        </p>
         <p
           className={`mt-0.5 font-bold ${isRank ? "text-headline-md text-[var(--primary-container)]" : "text-headline-md text-[var(--on-surface)]"}`}
         >

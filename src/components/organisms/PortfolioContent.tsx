@@ -1,22 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { PointChip } from "@/components/atoms/PointChip";
-import { Button } from "@/components/atoms/Button";
-import { toast } from "sonner";
 import {
-  MapPin,
-  Mail,
-  Edit2,
-  Share2,
-  ExternalLink,
   Award,
-  Zap,
   Briefcase,
+  Edit2,
+  ExternalLink,
   Grid,
   List,
+  Mail,
+  MapPin,
+  Share2,
+  Zap,
 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/atoms/Button";
 
 interface Submission {
   id: number;
@@ -48,7 +47,7 @@ interface PortfolioContentProps {
   isAdminView?: boolean;
 }
 
-const levelMappings: Record<string, { label: string; pct: number }> = {
+const _levelMappings: Record<string, { label: string; pct: number }> = {
   lokal: { label: "Lokal", pct: 30 },
   regional: { label: "Regional", pct: 60 },
   nasional: { label: "Nasional", pct: 85 },
@@ -58,22 +57,28 @@ const levelMappings: Record<string, { label: string; pct: number }> = {
   industri: { label: "Industri", pct: 95 },
 };
 
-export function PortfolioContent({ user, submissions, isAdminView }: PortfolioContentProps) {
+export function PortfolioContent({
+  user,
+  submissions,
+  isAdminView,
+}: PortfolioContentProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   // Extract skills (verified only)
   const verifiedSkills = submissions.filter(
-    (s) => s.status === "approved" && (s.type === "skill" || s.type === "certificate")
+    (s) =>
+      s.status === "approved" &&
+      (s.type === "skill" || s.type === "certificate"),
   );
 
   // Extract certificates (verified only)
   const verifiedCertificates = submissions.filter(
-    (s) => s.status === "approved" && s.type === "certificate"
+    (s) => s.status === "approved" && s.type === "certificate",
   );
 
   // Extract portfolios (verified only)
   const portfolioProjects = submissions.filter(
-    (s) => s.status === "approved" && s.type === "portfolio"
+    (s) => s.status === "approved" && s.type === "portfolio",
   );
 
   // Resolve user location from socialLinks JSON
@@ -102,8 +107,10 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                 {[
                   user.nim,
                   user.prodi || "Mahasiswa",
-                  user.angkatan ? `Angkatan ${user.angkatan}` : null
-                ].filter(Boolean).join(" · ")}
+                  user.angkatan ? `Angkatan ${user.angkatan}` : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
               </p>
             </div>
 
@@ -131,7 +138,8 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
           </div>
 
           <p className="text-sm text-[var(--on-surface-variant)] mt-4 max-w-2xl leading-relaxed">
-            {user.bio || "Belum ada bio. Ceritakan keahlian dan minat belajarmu di sini!"}
+            {user.bio ||
+              "Belum ada bio. Ceritakan keahlian dan minat belajarmu di sini!"}
           </p>
 
           {/* Social and Location Pills */}
@@ -193,7 +201,8 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
 
             {verifiedSkills.length === 0 ? (
               <p className="text-xs text-[var(--on-surface-variant)] py-4 text-center">
-                Belum ada keahlian terverifikasi. Silakan ajukan keahlianmu di tab Pengajuan!
+                Belum ada keahlian terverifikasi. Silakan ajukan keahlianmu di
+                tab Pengajuan!
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -215,7 +224,6 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                         Aktif
                       </span>
                     </div>
-
                   </div>
                 ))}
               </div>
@@ -241,7 +249,8 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
 
             {verifiedCertificates.length === 0 ? (
               <p className="text-xs text-[var(--on-surface-variant)] py-4 text-center">
-                Belum ada sertifikasi terverifikasi. Silakan ajukan sertifikatmu di tab Pengajuan!
+                Belum ada sertifikasi terverifikasi. Silakan ajukan sertifikatmu
+                di tab Pengajuan!
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -292,28 +301,36 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
           </div>
 
           <div className="flex flex-col gap-3 relative z-10">
-            <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">PERINGKAT AKTIF</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+              PERINGKAT AKTIF
+            </span>
             <h2 className="text-4xl font-black tracking-tight text-yellow-400">
               #{user.rank ?? "—"}
             </h2>
             <p className="text-xs opacity-80 leading-normal">
               {isAdminView
-                ? (user.rank === 1
+                ? user.rank === 1
                   ? "Mahasiswa ini memimpin di peringkat teratas (Juara 1) di leaderboard saat ini."
-                  : `Mahasiswa ini berada di peringkat #${user.rank ?? "—"} di leaderboard saat ini.`)
-                : (user.rank === 1
+                  : `Mahasiswa ini berada di peringkat #${user.rank ?? "—"} di leaderboard saat ini.`
+                : user.rank === 1
                   ? "Selamat! Kamu memimpin di peringkat teratas (Juara 1) di leaderboard saat ini."
-                  : `Kamu berada di peringkat #${user.rank ?? "—"} di leaderboard. Terus tingkatkan poinmu!`)}
+                  : `Kamu berada di peringkat #${user.rank ?? "—"} di leaderboard. Terus tingkatkan poinmu!`}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-4 relative z-10 text-xs font-bold font-mono">
             <div>
-              <p className="opacity-60 text-[9px] uppercase tracking-wider font-sans">Proyek</p>
-              <p className="text-xl text-yellow-400 mt-1">{portfolioProjects.length}</p>
+              <p className="opacity-60 text-[9px] uppercase tracking-wider font-sans">
+                Proyek
+              </p>
+              <p className="text-xl text-yellow-400 mt-1">
+                {portfolioProjects.length}
+              </p>
             </div>
             <div>
-              <p className="opacity-60 text-[9px] uppercase tracking-wider font-sans">Total Poin</p>
+              <p className="opacity-60 text-[9px] uppercase tracking-wider font-sans">
+                Total Poin
+              </p>
               <p className="text-xl text-yellow-400 mt-1">{user.totalPoints}</p>
             </div>
           </div>
@@ -368,13 +385,12 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                       {proj.title}
                     </h4>
                     <p className="text-xs text-[var(--on-surface-variant)] mt-1.5 line-clamp-3 leading-normal">
-                      {proj.description || "Studi kasus detail dari proyek portofolio mahasiswa Kinetic Academy."}
+                      {proj.description ||
+                        "Studi kasus detail dari proyek portofolio mahasiswa Kinetic Academy."}
                     </p>
                   </div>
 
                   <div className="flex items-center justify-between border-t border-[var(--outline-variant)] pt-3 text-xs">
-
-
                     {proj.proofUrl && (
                       <a
                         href={proj.proofUrl}
@@ -390,8 +406,6 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                 </div>
               </div>
             ))}
-
-
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -409,7 +423,8 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                       {proj.title}
                     </h4>
                     <p className="text-xs text-[var(--on-surface-variant)] mt-1 line-clamp-1 leading-normal max-w-lg">
-                      {proj.description || "Studi kasus detail dari proyek portofolio."}
+                      {proj.description ||
+                        "Studi kasus detail dari proyek portofolio."}
                     </p>
                   </div>
                 </div>

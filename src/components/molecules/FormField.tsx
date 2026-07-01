@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { Input, Textarea, Select } from "@/components/atoms/Input";
+import { Input, Select, Textarea } from "@/components/atoms/Input";
 
 interface FormFieldProps {
   label: string;
@@ -56,9 +56,7 @@ export function FormField({
       ) : (
         children
       )}
-      {error ? (
-        <p className="text-xs text-[var(--error)]">{error}</p>
-      ) : null}
+      {error ? <p className="text-xs text-[var(--error)]">{error}</p> : null}
     </div>
   );
 }

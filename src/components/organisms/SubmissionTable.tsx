@@ -1,11 +1,10 @@
 "use client";
 
+import { Check, ChevronDown, ChevronUp, ExternalLink, X } from "lucide-react";
 import { useState, useTransition } from "react";
-import { Button } from "@/components/atoms/Button";
-import { Badge } from "@/components/atoms/Badge";
-import { approveSubmission, rejectSubmission } from "@/actions/submissions";
 import { toast } from "sonner";
-import { Check, X, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { approveSubmission, rejectSubmission } from "@/actions/submissions";
+import { Button } from "@/components/atoms/Button";
 import { ConfirmationDialog } from "@/components/molecules/ConfirmationDialog";
 
 interface Submission {
@@ -103,7 +102,9 @@ export function SubmissionTable({
           <div className="p-[var(--space-md)] flex items-center gap-4">
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-[var(--on-surface)] truncate">
-                {sub.type === "certificate" && sub.certificateName ? sub.certificateName : sub.title}
+                {sub.type === "certificate" && sub.certificateName
+                  ? sub.certificateName
+                  : sub.title}
               </p>
               {sub.type === "certificate" && sub.certificateName && (
                 <p className="text-xs font-semibold text-[#4F46E5] mt-0.5">
@@ -113,8 +114,12 @@ export function SubmissionTable({
               <p className="text-xs text-[var(--on-surface-variant)] mt-0.5">
                 {sub.userName} ({sub.userNim ?? "—"}) ·{" "}
                 {typeLabels[sub.type] ?? sub.type}
-                {sub.certificateLevel ? ` · ${sub.certificateLevel.toUpperCase()}` : ""}
-                {sub.portfolioLevel ? ` · ${sub.portfolioLevel.toUpperCase()}` : ""}
+                {sub.certificateLevel
+                  ? ` · ${sub.certificateLevel.toUpperCase()}`
+                  : ""}
+                {sub.portfolioLevel
+                  ? ` · ${sub.portfolioLevel.toUpperCase()}`
+                  : ""}
               </p>
             </div>
 
@@ -182,10 +187,7 @@ export function SubmissionTable({
                 </div>
               ) : (
                 <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    onClick={() => setConfirmApproveId(sub.id)}
-                  >
+                  <Button size="sm" onClick={() => setConfirmApproveId(sub.id)}>
                     <Check className="h-3.5 w-3.5" />
                     Setujui
                   </Button>

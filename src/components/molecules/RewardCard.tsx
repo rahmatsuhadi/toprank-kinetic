@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
+import { Gift, Package } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 import { PointChip } from "@/components/atoms/PointChip";
-import { Gift, Package } from "lucide-react";
 
 interface RewardCardProps {
   id: number;

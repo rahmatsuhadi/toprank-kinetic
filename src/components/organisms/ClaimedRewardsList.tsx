@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Calendar, Eye, Gift, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { PointChip } from "@/components/atoms/PointChip";
-import { Gift, Calendar, X, Eye } from "lucide-react";
 
 interface ClaimedReward {
   id: number;
@@ -18,7 +18,9 @@ interface ClaimedRewardsListProps {
 }
 
 export function ClaimedRewardsList({ claims }: ClaimedRewardsListProps) {
-  const [selectedClaim, setSelectedClaim] = useState<ClaimedReward | null>(null);
+  const [selectedClaim, setSelectedClaim] = useState<ClaimedReward | null>(
+    null,
+  );
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -38,7 +40,9 @@ export function ClaimedRewardsList({ claims }: ClaimedRewardsListProps) {
         <div className="rounded-full bg-slate-100 dark:bg-slate-800 p-3 w-12 h-12 flex items-center justify-center mx-auto text-slate-400 mb-3">
           <Gift className="h-6 w-6" />
         </div>
-        <p className="text-sm font-semibold text-[var(--on-surface)]">Belum ada reward yang diklaim</p>
+        <p className="text-sm font-semibold text-[var(--on-surface)]">
+          Belum ada reward yang diklaim
+        </p>
         <p className="text-xs text-[var(--on-surface-variant)] mt-1">
           Kumpulkan poin dari tugas/sertifikat dan tukarkan di katalog atas!
         </p>
@@ -177,11 +181,14 @@ export function ClaimedRewardsList({ claims }: ClaimedRewardsListProps) {
                     </span>
                     <span className="text-xs font-bold text-[var(--on-surface)] flex items-center gap-1 mt-1 font-mono">
                       <Calendar className="h-3.5 w-3.5 text-[var(--on-surface-variant)]" />
-                      {new Date(selectedClaim.createdAt).toLocaleDateString("id-ID", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
+                      {new Date(selectedClaim.createdAt).toLocaleDateString(
+                        "id-ID",
+                        {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        },
+                      )}
                     </span>
                   </div>
                 </div>
@@ -192,10 +199,12 @@ export function ClaimedRewardsList({ claims }: ClaimedRewardsListProps) {
                     KODE VOUCHER / KUPON
                   </span>
                   <div className="bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)] py-2.5 px-4 rounded font-mono text-sm font-black tracking-widest text-[var(--on-surface)] select-all cursor-pointer hover:bg-[var(--surface-container-low)] transition-colors">
-                    TR-{selectedClaim.id.toString().padStart(4, "0")}-{Math.random().toString(36).substring(2, 6).toUpperCase()}
+                    TR-{selectedClaim.id.toString().padStart(4, "0")}-
+                    {Math.random().toString(36).substring(2, 6).toUpperCase()}
                   </div>
                   <p className="text-[10px] text-[var(--on-surface-variant)] font-medium">
-                    Tunjukkan kode voucher di atas kepada Admin Kampus untuk penukaran fisik.
+                    Tunjukkan kode voucher di atas kepada Admin Kampus untuk
+                    penukaran fisik.
                   </p>
                 </div>
               </div>

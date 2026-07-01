@@ -1,14 +1,14 @@
 "use client";
 
+import { Edit, Gift, Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
+import { createReward, deleteReward, updateReward } from "@/actions/rewards";
 import { Button } from "@/components/atoms/Button";
 import { PointChip } from "@/components/atoms/PointChip";
-import { createReward, deleteReward, updateReward } from "@/actions/rewards";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { Plus, Trash2, Gift, Edit } from "lucide-react";
-import { RewardFormModal } from "./RewardFormModal";
 import { ConfirmationDialog } from "@/components/molecules/ConfirmationDialog";
+import { RewardFormModal } from "./RewardFormModal";
 
 interface Reward {
   id: number;
@@ -110,7 +110,9 @@ export function RewardManager({ rewards: initial }: RewardManagerProps) {
               <Gift className="h-8 w-8" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-[var(--on-surface)]">Belum Ada Reward</h4>
+              <h4 className="text-sm font-bold text-[var(--on-surface)]">
+                Belum Ada Reward
+              </h4>
               <p className="text-xs text-[var(--on-surface-variant)] mt-1">
                 Silakan tambahkan reward baru untuk ditukarkan oleh mahasiswa.
               </p>
@@ -132,14 +134,22 @@ export function RewardManager({ rewards: initial }: RewardManagerProps) {
                       {r.description}
                     </p>
                   </div>
-                  <PointChip points={r.pointsCost} size="sm" className="shrink-0 font-bold" />
+                  <PointChip
+                    points={r.pointsCost}
+                    size="sm"
+                    className="shrink-0 font-bold"
+                  />
                 </div>
 
                 <div className="flex items-center justify-between border-t border-[var(--outline-variant)]/60 pt-3.5 mt-1">
                   <div className="flex items-center gap-2 text-xs font-semibold text-[var(--on-surface-variant)]">
-                    <span className={`inline-block w-2.5 h-2.5 rounded-full ${r.stock > 0 ? 'bg-green-500 shadow-sm' : 'bg-red-500'}`} />
+                    <span
+                      className={`inline-block w-2.5 h-2.5 rounded-full ${r.stock > 0 ? "bg-green-500 shadow-sm" : "bg-red-500"}`}
+                    />
                     <span>Stok Tersedia:</span>
-                    <span className="text-[var(--on-surface)] font-extrabold font-mono">{r.stock} unit</span>
+                    <span className="text-[var(--on-surface)] font-extrabold font-mono">
+                      {r.stock} unit
+                    </span>
                   </div>
                   <div className="flex items-center gap-1">
                     <button

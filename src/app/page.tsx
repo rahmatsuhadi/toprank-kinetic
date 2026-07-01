@@ -1,13 +1,5 @@
+import { ArrowRight, FileText, Gift, Shield, Trophy, Zap } from "lucide-react";
 import Link from "next/link";
-import {
-  Zap,
-  Trophy,
-  FileText,
-  Gift,
-  ArrowRight,
-  Shield,
-  Users,
-} from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -20,9 +12,7 @@ export default function HomePage() {
             <Zap className="h-8 w-8 text-[var(--reward-gold)]" />
             <span className="text-xl font-bold">Kinetic Academy</span>
           </div>
-          <h1 className="text-display-lg max-w-2xl">
-            University Talent Hub
-          </h1>
+          <h1 className="text-display-lg max-w-2xl">University Talent Hub</h1>
           <p className="text-body-lg text-white/80 max-w-lg mt-4">
             Platform gamifikasi untuk memetakan, mengembangkan, dan
             mempertemukan talenta mahasiswa dengan berbagai peluang.
@@ -48,9 +38,7 @@ export default function HomePage() {
       {/* Features */}
       <section className="py-20 px-[var(--space-lg)]">
         <div className="max-w-[var(--container-max)] mx-auto">
-          <h2 className="text-headline-lg text-center mb-2">
-            Fitur Unggulan
-          </h2>
+          <h2 className="text-headline-lg text-center mb-2">Fitur Unggulan</h2>
           <p className="text-body-md text-[var(--on-surface-variant)] text-center mb-12 max-w-md mx-auto">
             Bangun portofolio, raih poin, dan tunjukkan kemampuanmu.
           </p>

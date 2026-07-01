@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { RegisterForm } from "@/components/organisms/RegisterForm";
 import Link from "next/link";
+import { RegisterForm } from "@/components/organisms/RegisterForm";
 
 export const metadata: Metadata = {
   title: "Daftar — Kinetic Academy",

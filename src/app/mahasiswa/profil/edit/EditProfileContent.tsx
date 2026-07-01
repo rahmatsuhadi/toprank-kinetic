@@ -1,12 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { ArrowLeft, Save, User } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useActionState } from "react";
+import { toast } from "sonner";
+import { updateProfile } from "@/actions/students";
 import { Button } from "@/components/atoms/Button";
 import { FormField } from "@/components/molecules/FormField";
-import { updateProfile } from "@/actions/students";
-import { toast } from "sonner";
-import { User, Save, ArrowLeft } from "lucide-react";
 
 interface EditProfileContentProps {
   user: {
@@ -37,7 +37,7 @@ export function EditProfileContent({ user }: EditProfileContentProps) {
         github: github || undefined,
         linkedin: linkedin || undefined,
         location: location || "Jakarta, Indonesia",
-      })
+      }),
     );
 
     const result = await updateProfile(formData);
@@ -68,7 +68,8 @@ export function EditProfileContent({ user }: EditProfileContentProps) {
           Edit Profil Talenta
         </h1>
         <p className="text-body-md text-[var(--on-surface-variant)] mt-1">
-          Perbarui informasi profil, program studi, angkatan, dan tautan media sosial kamu agar menarik bagi pencari talenta.
+          Perbarui informasi profil, program studi, angkatan, dan tautan media
+          sosial kamu agar menarik bagi pencari talenta.
         </p>
       </div>
 
@@ -160,7 +161,11 @@ export function EditProfileContent({ user }: EditProfileContentProps) {
           >
             Batal
           </button>
-          <Button type="submit" isLoading={isPending} className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white">
+          <Button
+            type="submit"
+            isLoading={isPending}
+            className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white"
+          >
             <Save className="h-4 w-4" />
             Simpan Perubahan
           </Button>

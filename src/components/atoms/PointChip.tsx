@@ -21,14 +21,13 @@ export function PointChip({ points, className, size = "md" }: PointChipProps) {
         className,
       )}
     >
-      <Star className={clsx(
-        "fill-[var(--reward-gold)] text-[var(--reward-gold)]",
-        {
+      <Star
+        className={clsx("fill-[var(--reward-gold)] text-[var(--reward-gold)]", {
           "h-3 w-3": size === "sm",
           "h-3.5 w-3.5": size === "md",
           "h-4 w-4": size === "lg",
-        },
-      )} />
+        })}
+      />
       {points}
     </span>
   );

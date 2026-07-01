@@ -19,7 +19,7 @@
   --outline: #777587;
   --outline-variant: #c7c4d8;
   --surface-tint: #4d44e3;
-  --background-main: #F8FAFC;
+  --background-main: #f8fafc;
 
   /* Primary — Electric Indigo */
   --primary: #3525cd;
@@ -55,11 +55,11 @@
   --tertiary-fixed-dim: #ffb95f;
 
   /* Status / Functional */
-  --success-green: #10B981;
-  --status-verified: #10B981;
-  --status-pending: #F59E0B;
-  --status-rejected: #EF4444;
-  --reward-gold: #FFD700;
+  --success-green: #10b981;
+  --status-verified: #10b981;
+  --status-pending: #f59e0b;
+  --status-rejected: #ef4444;
+  --reward-gold: #ffd700;
 
   /* Glassmorphism */
   --surface-glass: rgba(255, 255, 255, 0.7);
@@ -69,7 +69,11 @@
   --shadow-hover: 0px 8px 30px rgba(0, 0, 0, 0.08);
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, var(--primary-container), var(--secondary-container));
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--primary-container),
+    var(--secondary-container)
+  );
   --gradient-hero: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
 
   /* Spacing */
@@ -187,7 +191,7 @@ body {
   font-family: "JetBrains Mono", monospace;
   font-size: 12px;
   font-weight: 600;
-  line-height: 1.0;
+  line-height: 1;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -196,7 +200,7 @@ body {
   font-family: "JetBrains Mono", monospace;
   font-size: 20px;
   font-weight: 700;
-  line-height: 1.0;
+  line-height: 1;
 }
 
 /* ─── Elevation / Depth ─────────────────────────────────── */
@@ -206,7 +210,7 @@ body {
 
 .elevation-1 {
   background: white;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
   box-shadow: var(--shadow-card);
 }
 
@@ -243,7 +247,6 @@ body {
 }
 
 @keyframes pulse-gold {
-
   0%,
   100% {
     box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);

@@ -1,22 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { PointChip } from "@/components/atoms/PointChip";
-import { Button } from "@/components/atoms/Button";
 import {
-  Search,
+  AlertCircle,
   Award,
   Briefcase,
-  Zap,
-  Clock,
   CheckCircle,
-  HelpCircle,
-  FileText,
-  AlertCircle,
   ChevronRight,
+  Clock,
   ExternalLink,
+  FileText,
+  HelpCircle,
+  Search,
+  Zap,
 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Button } from "@/components/atoms/Button";
 
 interface Submission {
   id: number;
@@ -37,9 +36,12 @@ interface SubmissionsListContentProps {
 }
 
 const statusColors: Record<string, string> = {
-  pending: "bg-[var(--status-pending)]/10 text-[var(--status-pending)] border-[var(--status-pending)]/20",
-  approved: "bg-[var(--success-green)]/10 text-[var(--success-green)] border-[var(--success-green)]/20",
-  rejected: "bg-[var(--status-rejected)]/10 text-[var(--status-rejected)] border-[var(--status-rejected)]/20",
+  pending:
+    "bg-[var(--status-pending)]/10 text-[var(--status-pending)] border-[var(--status-pending)]/20",
+  approved:
+    "bg-[var(--success-green)]/10 text-[var(--success-green)] border-[var(--success-green)]/20",
+  rejected:
+    "bg-[var(--status-rejected)]/10 text-[var(--status-rejected)] border-[var(--status-rejected)]/20",
 };
 
 const statusLabels: Record<string, string> = {
@@ -65,46 +67,55 @@ export function SubmissionsListContent({
   totalPoints,
 }: SubmissionsListContentProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "pending" | "approved" | "rejected">("all");
+  const [activeTab, setActiveTab] = useState<
+    "all" | "pending" | "approved" | "rejected"
+  >("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   // Filter submissions
   const filteredSubmissions = initialSubmissions.filter((sub) => {
-    const matchesSearch = sub.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = sub.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesTab = activeTab === "all" || sub.status === activeTab;
     const matchesCategory =
       selectedCategory === "all" ||
-      (selectedCategory === "skill" && (sub.type === "skill" || sub.type === "certificate")) ||
+      (selectedCategory === "skill" &&
+        (sub.type === "skill" || sub.type === "certificate")) ||
       (selectedCategory === "portfolio" && sub.type === "portfolio");
     return matchesSearch && matchesTab && matchesCategory;
   });
 
   // Calculate stats
-  const verifiedCount = initialSubmissions.filter((s) => s.status === "approved").length;
-  const activeCount = initialSubmissions.filter((s) => s.status === "pending").length;
+  const verifiedCount = initialSubmissions.filter(
+    (s) => s.status === "approved",
+  ).length;
+  const activeCount = initialSubmissions.filter(
+    (s) => s.status === "pending",
+  ).length;
 
   // Tier calculation
-  let currentTier = "Bronze Tier";
-  let nextTier = "Silver Tier";
-  let pointsNeeded = 250 - totalPoints;
-  let progressPct = (totalPoints / 250) * 100;
+  let _currentTier = "Bronze Tier";
+  let _nextTier = "Silver Tier";
+  let _pointsNeeded = 250 - totalPoints;
+  let _progressPct = (totalPoints / 250) * 100;
 
   if (totalPoints >= 1500) {
-    currentTier = "Diamond Tier";
-    nextTier = "Max Tier reached";
-    pointsNeeded = 0;
-    progressPct = 100;
+    _currentTier = "Diamond Tier";
+    _nextTier = "Max Tier reached";
+    _pointsNeeded = 0;
+    _progressPct = 100;
   } else if (totalPoints >= 750) {
-    currentTier = "Gold Tier";
-    nextTier = "Diamond Tier";
-    pointsNeeded = 1500 - totalPoints;
-    progressPct = ((totalPoints - 750) / 750) * 100;
+    _currentTier = "Gold Tier";
+    _nextTier = "Diamond Tier";
+    _pointsNeeded = 1500 - totalPoints;
+    _progressPct = ((totalPoints - 750) / 750) * 100;
   } else if (totalPoints >= 250) {
-    currentTier = "Silver Tier";
-    nextTier = "Gold Tier";
-    pointsNeeded = 750 - totalPoints;
-    progressPct = ((totalPoints - 250) / 500) * 100;
+    _currentTier = "Silver Tier";
+    _nextTier = "Gold Tier";
+    _pointsNeeded = 750 - totalPoints;
+    _progressPct = ((totalPoints - 250) / 500) * 100;
   }
 
   return (
@@ -121,8 +132,7 @@ export function SubmissionsListContent({
         </div>
         <Link href="/mahasiswa/submissions/baru">
           <Button className="!bg-[#4F46E5] hover:!bg-[#4338CA] text-white">
-            <Zap className="h-4 w-4" />
-            + Submit Skill
+            <Zap className="h-4 w-4" />+ Submit Skill
           </Button>
         </Link>
       </div>
@@ -155,18 +165,27 @@ export function SubmissionsListContent({
 
           {/* Navigation Tabs */}
           <div className="flex gap-2 border-b border-[var(--outline-variant)] pb-px">
-            {(["all", "pending", "approved", "rejected"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2.5 text-xs font-bold capitalize transition-all border-b-2 -mb-px ${activeTab === tab
-                  ? "border-[#4F46E5] text-[#4F46E5]"
-                  : "border-transparent text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
+            {(["all", "pending", "approved", "rejected"] as const).map(
+              (tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2.5 text-xs font-bold capitalize transition-all border-b-2 -mb-px ${
+                    activeTab === tab
+                      ? "border-[#4F46E5] text-[#4F46E5]"
+                      : "border-transparent text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                   }`}
-              >
-                {tab === "all" ? "Semua Pengajuan" : tab === "approved" ? "Disetujui" : tab === "pending" ? "Menunggu" : "Ditolak"}
-              </button>
-            ))}
+                >
+                  {tab === "all"
+                    ? "Semua Pengajuan"
+                    : tab === "approved"
+                      ? "Disetujui"
+                      : tab === "pending"
+                        ? "Menunggu"
+                        : "Ditolak"}
+                </button>
+              ),
+            )}
           </div>
 
           {/* Submissions List */}
@@ -188,12 +207,13 @@ export function SubmissionsListContent({
                 return (
                   <div
                     key={sub.id}
-                    className={`elevation-1 rounded-[var(--rounded-xl)] bg-[var(--surface-container-low)] border transition-all overflow-hidden ${sub.status === "rejected"
-                      ? "border-red-200"
-                      : sub.status === "pending"
-                        ? "border-amber-200"
-                        : "border-[var(--outline-variant)]"
-                      }`}
+                    className={`elevation-1 rounded-[var(--rounded-xl)] bg-[var(--surface-container-low)] border transition-all overflow-hidden ${
+                      sub.status === "rejected"
+                        ? "border-red-200"
+                        : sub.status === "pending"
+                          ? "border-amber-200"
+                          : "border-[var(--outline-variant)]"
+                    }`}
                   >
                     <div className="p-5 flex items-center justify-between gap-4">
                       {/* Left: Info */}
@@ -203,13 +223,16 @@ export function SubmissionsListContent({
                         </div>
                         <div>
                           <h4 className="text-sm font-bold text-[var(--on-surface)]">
-                            {sub.type === "certificate" && sub.certificateName ? sub.certificateName : sub.title}
+                            {sub.type === "certificate" && sub.certificateName
+                              ? sub.certificateName
+                              : sub.title}
                           </h4>
-                          {sub.type === "certificate" && sub.certificateName && (
-                            <p className="text-xs font-semibold text-[#4F46E5] mt-0.5">
-                              Bidang Skill: {sub.title}
-                            </p>
-                          )}
+                          {sub.type === "certificate" &&
+                            sub.certificateName && (
+                              <p className="text-xs font-semibold text-[#4F46E5] mt-0.5">
+                                Bidang Skill: {sub.title}
+                              </p>
+                            )}
                           <div className="flex items-center gap-3 mt-1.5 text-xs text-[var(--on-surface-variant)]">
                             <span className="flex items-center gap-1">
                               <Icon className="h-3 w-3" />
@@ -217,11 +240,14 @@ export function SubmissionsListContent({
                             </span>
                             <span>•</span>
                             <span>
-                              {new Date(sub.createdAt).toLocaleDateString("id-ID", {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                              })}
+                              {new Date(sub.createdAt).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "numeric",
+                                  month: "short",
+                                  year: "numeric",
+                                },
+                              )}
                             </span>
                           </div>
                         </div>
@@ -231,8 +257,9 @@ export function SubmissionsListContent({
                       <div className="flex items-center gap-4 shrink-0">
                         {/* Status Badge */}
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded border tracking-wider ${statusColors[sub.status] || "bg-gray-150"
-                            }`}
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded border tracking-wider ${
+                            statusColors[sub.status] || "bg-gray-150"
+                          }`}
                         >
                           {statusLabels[sub.status] || sub.status}
                         </span>
@@ -251,11 +278,15 @@ export function SubmissionsListContent({
                         {/* Action buttons */}
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => setExpandedId(isExpanded ? null : sub.id)}
+                            onClick={() =>
+                              setExpandedId(isExpanded ? null : sub.id)
+                            }
                             className="text-xs text-[#4F46E5] font-bold hover:underline flex items-center gap-0.5"
                           >
                             Lihat Detail
-                            <ChevronRight className={`h-3 w-3 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
+                            <ChevronRight
+                              className={`h-3 w-3 transition-transform ${isExpanded ? "rotate-90" : ""}`}
+                            />
                           </button>
                         </div>
                       </div>
@@ -300,13 +331,24 @@ export function SubmissionsListContent({
                                 <AlertCircle className="h-4 w-4" />
                                 FEEDBACK ADMIN
                               </span>
-                              <span className="text-red-500 font-normal">Baru saja</span>
+                              <span className="text-red-500 font-normal">
+                                Baru saja
+                              </span>
                             </div>
                             <p className="text-xs text-red-800 leading-normal italic">
-                              "{sub.rejectionReason || "Bukti tautan tidak valid atau dokumen kurang jelas. Silakan ajukan ulang dengan bukti yang sesuai."}"
+                              "
+                              {sub.rejectionReason ||
+                                "Bukti tautan tidak valid atau dokumen kurang jelas. Silakan ajukan ulang dengan bukti yang sesuai."}
+                              "
                             </p>
-                            <Link href={`/mahasiswa/submissions/baru`} className="self-end">
-                              <Button size="sm" className="!bg-red-600 hover:!bg-red-700 text-white text-[11px] py-1 px-3 mt-1">
+                            <Link
+                              href={`/mahasiswa/submissions/baru`}
+                              className="self-end"
+                            >
+                              <Button
+                                size="sm"
+                                className="!bg-red-600 hover:!bg-red-700 text-white text-[11px] py-1 px-3 mt-1"
+                              >
                                 Ajukan Ulang Sekarang
                               </Button>
                             </Link>
@@ -335,9 +377,13 @@ export function SubmissionsListContent({
                 <div className="rounded-[var(--rounded-md)] bg-[var(--success-green)]/15 p-2 text-[var(--success-green)]">
                   <CheckCircle className="h-4 w-4" />
                 </div>
-                <span className="text-xs text-[var(--on-surface-variant)]">Terverifikasi</span>
+                <span className="text-xs text-[var(--on-surface-variant)]">
+                  Terverifikasi
+                </span>
               </div>
-              <span className="text-sm font-bold text-[var(--on-surface)] font-mono">{verifiedCount}</span>
+              <span className="text-sm font-bold text-[var(--on-surface)] font-mono">
+                {verifiedCount}
+              </span>
             </div>
 
             {/* Stat Item 2 */}
@@ -346,26 +392,33 @@ export function SubmissionsListContent({
                 <div className="rounded-[var(--rounded-md)] bg-amber-500/15 p-2 text-amber-600">
                   <Clock className="h-4 w-4" />
                 </div>
-                <span className="text-xs text-[var(--on-surface-variant)]">Sedang Diproses</span>
+                <span className="text-xs text-[var(--on-surface-variant)]">
+                  Sedang Diproses
+                </span>
               </div>
-              <span className="text-sm font-bold text-[var(--on-surface)] font-mono">{activeCount}</span>
+              <span className="text-sm font-bold text-[var(--on-surface)] font-mono">
+                {activeCount}
+              </span>
             </div>
 
             {/* Total Earned Card */}
             <div className="bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-[var(--rounded-lg)] p-4 text-white flex flex-col gap-1 mt-1">
-              <span className="text-[9px] font-bold tracking-wider opacity-60 uppercase">TOTAL EARNED</span>
+              <span className="text-[9px] font-bold tracking-wider opacity-60 uppercase">
+                TOTAL EARNED
+              </span>
               <div className="flex items-center justify-between">
                 <div className="flex items-baseline gap-1.5">
                   <div className="h-2 w-2 rounded-full bg-yellow-500 shrink-0" />
-                  <span className="text-2xl font-extrabold font-mono text-yellow-500">{totalPoints.toLocaleString()}</span>
+                  <span className="text-2xl font-extrabold font-mono text-yellow-500">
+                    {totalPoints.toLocaleString()}
+                  </span>
                 </div>
-                <span className="text-[10px] font-semibold opacity-85 uppercase">POINTS</span>
+                <span className="text-[10px] font-semibold opacity-85 uppercase">
+                  POINTS
+                </span>
               </div>
             </div>
-
-
           </div>
-
         </div>
       </div>
     </div>

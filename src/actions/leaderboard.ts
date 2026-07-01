@@ -1,9 +1,9 @@
 "use server";
 
+import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { user, submissions } from "@/db/schema";
+import { submissions, user } from "@/db/schema";
 import { getCurrentUser } from "./auth";
-import { desc, sql, eq } from "drizzle-orm";
 
 export async function getLeaderboard() {
   // Query top students and compute their verified skills count
@@ -37,19 +37,17 @@ export async function getLeaderboard() {
         .select({ count: sql<number>`count(*)` })
         .from(user)
         .where(
-          sql`${user.role} = 'mahasiswa' AND ${user.totalPoints} > ${session.user.totalPoints}`
+          sql`${user.role} = 'mahasiswa' AND ${user.totalPoints} > ${session.user.totalPoints}`,
         );
       const myRank = (result?.count ?? 0) + 1;
 
       // Fetch user's own verified skills count
       const [userSkillCount] = await db
         .select({
-          count: sql<number>`coalesce(count(${submissions.id}) filter (where ${submissions.status} = 'approved' and ${submissions.type} in ('skill', 'certificate')), 0)::integer`
+          count: sql<number>`coalesce(count(${submissions.id}) filter (where ${submissions.status} = 'approved' and ${submissions.type} in ('skill', 'certificate')), 0)::integer`,
         })
         .from(submissions)
-        .where(
-          sql`${submissions.userId} = ${session.user.id}`
-        );
+        .where(sql`${submissions.userId} = ${session.user.id}`);
 
       return {
         leaderboard: ranked,
