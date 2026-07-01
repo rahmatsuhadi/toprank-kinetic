@@ -63,6 +63,8 @@ export default async function ProfilPage() {
         createdAt: s.createdAt.toISOString(),
         description: s.description,
         proofUrl: s.proofUrl,
+        certificateName: s.certificateName,
+        certificateLevel: s.certificateLevel,
       }))}
     />
   );

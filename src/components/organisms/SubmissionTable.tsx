@@ -16,6 +16,7 @@ interface Submission {
   proofUrl: string;
   certificateLevel: string | null;
   portfolioLevel: string | null;
+  certificateName: string | null;
   status: string;
   createdAt: Date;
   userName: string;
@@ -102,8 +103,13 @@ export function SubmissionTable({
           <div className="p-[var(--space-md)] flex items-center gap-4">
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-[var(--on-surface)] truncate">
-                {sub.title}
+                {sub.type === "certificate" && sub.certificateName ? sub.certificateName : sub.title}
               </p>
+              {sub.type === "certificate" && sub.certificateName && (
+                <p className="text-xs font-semibold text-[#4F46E5] mt-0.5">
+                  Bidang Skill: {sub.title}
+                </p>
+              )}
               <p className="text-xs text-[var(--on-surface-variant)] mt-0.5">
                 {sub.userName} ({sub.userNim ?? "—"}) ·{" "}
                 {typeLabels[sub.type] ?? sub.type}

@@ -38,6 +38,7 @@ export default async function StudentDashboardPage() {
         status: s.status,
         pointsAwarded: s.pointsAwarded,
         createdAt: s.createdAt.toISOString(),
+        certificateName: s.certificateName,
       }))}
       topSkills={verifiedSkills.slice(0, 4).map((s) => ({
         name: s.title,

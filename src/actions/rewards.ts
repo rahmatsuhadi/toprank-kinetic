@@ -108,6 +108,8 @@ export async function claimReward(rewardId: number) {
       await tx.insert(claims).values({
         userId: session.user.id,
         rewardId,
+        rewardTitle: reward.title,
+        rewardDescription: reward.description,
         pointsSpent: reward.pointsCost,
         status: "claimed",
       });
@@ -133,10 +135,10 @@ export async function getMyClaims() {
       pointsSpent: claims.pointsSpent,
       status: claims.status,
       createdAt: claims.createdAt,
-      rewardTitle: rewards.title,
+      rewardTitle: claims.rewardTitle,
+      rewardDescription: claims.rewardDescription,
     })
     .from(claims)
-    .innerJoin(rewards, eq(claims.rewardId, rewards.id))
     .where(eq(claims.userId, session.user.id))
     .orderBy(desc(claims.createdAt));
 }

@@ -22,7 +22,7 @@ const navItems = [
   { href: "/admin/mahasiswa", label: "Mahasiswa", icon: Users },
   { href: "/admin/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/admin/rewards", label: "Rewards", icon: Gift },
-  { href: "/admin/opportunities", label: "Opportunities", icon: Megaphone },
+  // { href: "/admin/opportunities", label: "Opportunities", icon: Megaphone },
 ];
 
 export function AdminDashboardLayout({

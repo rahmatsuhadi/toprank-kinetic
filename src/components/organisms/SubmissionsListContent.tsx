@@ -28,6 +28,7 @@ interface Submission {
   description: string | null;
   proofUrl: string | null;
   rejectionReason: string | null;
+  certificateName?: string | null;
 }
 
 interface SubmissionsListContentProps {
@@ -72,7 +73,10 @@ export function SubmissionsListContent({
   const filteredSubmissions = initialSubmissions.filter((sub) => {
     const matchesSearch = sub.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesTab = activeTab === "all" || sub.status === activeTab;
-    const matchesCategory = selectedCategory === "all" || sub.type === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "all" ||
+      (selectedCategory === "skill" && (sub.type === "skill" || sub.type === "certificate")) ||
+      (selectedCategory === "portfolio" && sub.type === "portfolio");
     return matchesSearch && matchesTab && matchesCategory;
   });
 
@@ -144,8 +148,7 @@ export function SubmissionsListContent({
               className="px-3 py-2 rounded-[var(--rounded-md)] border border-[var(--outline-variant)] bg-[var(--surface)] text-sm focus:outline-none focus:border-[var(--primary)]"
             >
               <option value="all">Semua Kategori</option>
-              <option value="certificate">Sertifikat</option>
-              <option value="skill">Skill</option>
+              <option value="skill">Skill / Keahlian</option>
               <option value="portfolio">Portofolio</option>
             </select>
           </div>
@@ -200,8 +203,13 @@ export function SubmissionsListContent({
                         </div>
                         <div>
                           <h4 className="text-sm font-bold text-[var(--on-surface)]">
-                            {sub.title}
+                            {sub.type === "certificate" && sub.certificateName ? sub.certificateName : sub.title}
                           </h4>
+                          {sub.type === "certificate" && sub.certificateName && (
+                            <p className="text-xs font-semibold text-[#4F46E5] mt-0.5">
+                              Bidang Skill: {sub.title}
+                            </p>
+                          )}
                           <div className="flex items-center gap-3 mt-1.5 text-xs text-[var(--on-surface-variant)]">
                             <span className="flex items-center gap-1">
                               <Icon className="h-3 w-3" />
@@ -327,7 +335,7 @@ export function SubmissionsListContent({
                 <div className="rounded-[var(--rounded-md)] bg-[var(--success-green)]/15 p-2 text-[var(--success-green)]">
                   <CheckCircle className="h-4 w-4" />
                 </div>
-                <span className="text-xs text-[var(--on-surface-variant)]">Skill Terverifikasi</span>
+                <span className="text-xs text-[var(--on-surface-variant)]">Terverifikasi</span>
               </div>
               <span className="text-sm font-bold text-[var(--on-surface)] font-mono">{verifiedCount}</span>
             </div>

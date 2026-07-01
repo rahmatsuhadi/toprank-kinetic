@@ -103,6 +103,7 @@ export async function searchStudents(query?: string, minPoints?: number) {
         pointsAwarded: submissions.pointsAwarded,
         description: submissions.description,
         proofUrl: submissions.proofUrl,
+        certificateName: submissions.certificateName,
         createdAt: submissions.createdAt,
       })
       .from(submissions)

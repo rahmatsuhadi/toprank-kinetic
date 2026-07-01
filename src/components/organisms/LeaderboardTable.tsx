@@ -67,17 +67,6 @@ export function LeaderboardTable({
             </p>
           </div>
 
-          {/* Dropdown Filters (Mock Visuals) */}
-          <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 border border-[var(--outline-variant)] rounded-[var(--rounded-md)] bg-[var(--surface-container-low)] text-xs font-semibold text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]">
-              <span>Semua Jurusan</span>
-              <ChevronDown className="h-3.5 w-3.5" />
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 border border-[var(--outline-variant)] rounded-[var(--rounded-md)] bg-[var(--surface-container-low)] text-xs font-semibold text-[var(--on-surface-variant)] hover:bg-[var(--surface-container-high)]">
-              <span>Semua Keahlian</span>
-              <ChevronDown className="h-3.5 w-3.5" />
-            </button>
-          </div>
         </div>
 
         {/* Top 3 Podium Row */}
@@ -302,18 +291,6 @@ export function LeaderboardTable({
 
           {/* Progress Bar & Next Tier Target */}
           <div className="flex items-center gap-6 w-full md:w-auto flex-1 md:max-w-md justify-end">
-            <div className="flex-1 hidden sm:block">
-              <div className="flex justify-between text-[10px] font-bold mb-1 opacity-80">
-                <span>{sessionUser.totalPoints} poin</span>
-                <span>Target Berikut: 1,000 poin</span>
-              </div>
-              <div className="h-2 bg-indigo-950 rounded-full overflow-hidden border border-indigo-800">
-                <div
-                  className="h-full bg-yellow-400 rounded-full"
-                  style={{ width: `${Math.min(100, (sessionUser.totalPoints / 1000) * 100)}%` }}
-                />
-              </div>
-            </div>
 
             <Link href="/mahasiswa/submissions/baru">
               <button className="bg-white hover:bg-yellow-400 text-indigo-950 font-bold px-4 py-2 rounded-[var(--rounded-md)] text-xs flex items-center gap-1.5 transition-all shadow-md shrink-0 hover:scale-105 active:scale-95">

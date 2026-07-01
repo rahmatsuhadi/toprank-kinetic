@@ -112,6 +112,7 @@ export const submissions = pgTable("submissions", {
   proofUrl: text("proof_url").notNull(),
   certificateLevel: certificateLevelEnum("certificate_level"),
   portfolioLevel: portfolioLevelEnum("portfolio_level"),
+  certificateName: text("certificate_name"),
   status: submissionStatusEnum("status").default("pending").notNull(),
   rejectionReason: text("rejection_reason"),
   pointsAwarded: integer("points_awarded").default(0).notNull(),
@@ -137,6 +138,8 @@ export const claims = pgTable("claims", {
   rewardId: integer("reward_id")
     .references(() => rewards.id)
     .notNull(),
+  rewardTitle: text("reward_title").default("").notNull(),
+  rewardDescription: text("reward_description").default("").notNull(),
   pointsSpent: integer("points_spent").notNull(),
   status: claimStatusEnum("status").default("pending").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

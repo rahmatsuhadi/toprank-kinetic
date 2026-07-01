@@ -17,6 +17,7 @@ export async function createSubmission(formData: FormData) {
   const proofUrl = formData.get("proofUrl") as string;
   const certificateLevel = formData.get("certificateLevel") as CertificateLevel | null;
   const portfolioLevel = formData.get("portfolioLevel") as PortfolioLevel | null;
+  const certificateName = formData.get("certificateName") as string | null;
 
   if (!type || !title || !proofUrl) {
     return { error: "Tipe, judul, dan bukti wajib diisi." };
@@ -31,6 +32,7 @@ export async function createSubmission(formData: FormData) {
       proofUrl,
       certificateLevel: certificateLevel || null,
       portfolioLevel: portfolioLevel || null,
+      certificateName: certificateName || null,
     });
     return { success: true };
   } catch (e) {
@@ -131,6 +133,7 @@ export async function getPendingSubmissions() {
       proofUrl: submissions.proofUrl,
       certificateLevel: submissions.certificateLevel,
       portfolioLevel: submissions.portfolioLevel,
+      certificateName: submissions.certificateName,
       status: submissions.status,
       createdAt: submissions.createdAt,
       userName: user.name,

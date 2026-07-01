@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { getRewards } from "@/actions/rewards";
+import { getRewards, getMyClaims } from "@/actions/rewards";
 import { getCurrentUser } from "@/actions/auth";
 import { redirect } from "next/navigation";
 import { RewardGrid } from "@/components/organisms/RewardGrid";
 import { PointChip } from "@/components/atoms/PointChip";
+import { ClaimedRewardsList } from "@/components/organisms/ClaimedRewardsList";
 
 export const metadata: Metadata = {
   title: "Reward Catalog — Kinetic Academy",
@@ -14,10 +15,11 @@ export default async function StudentRewardsPage() {
   if (!session) redirect("/login");
 
   const rewards = await getRewards();
+  const myClaims = await getMyClaims();
   const userPoints = session.user.totalPoints ?? 0;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 pb-12">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-headline-lg">Reward Catalog</h1>
@@ -31,6 +33,17 @@ export default async function StudentRewardsPage() {
         </div>
       </div>
       <RewardGrid rewards={rewards} userPoints={userPoints} />
+
+      {/* Claimed Rewards Section */}
+      <div className="border-t border-[var(--outline-variant)]/60 pt-8 mt-4 flex flex-col gap-4">
+        <div>
+          <h2 className="text-title-lg font-bold text-[var(--on-surface)]">Riwayat Klaim Reward</h2>
+          <p className="text-xs text-[var(--on-surface-variant)] mt-1">
+            Daftar voucher dan reward yang sudah berhasil kamu klaim.
+          </p>
+        </div>
+        <ClaimedRewardsList claims={myClaims} />
+      </div>
     </div>
   );
 }

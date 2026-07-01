@@ -26,6 +26,7 @@ export default async function SubmissionsPage() {
         description: s.description,
         proofUrl: s.proofUrl,
         rejectionReason: s.rejectionReason,
+        certificateName: s.certificateName,
       }))}
       totalPoints={session.user.totalPoints ?? 0}
     />

@@ -3,10 +3,10 @@
 import { useState, useTransition } from "react";
 import { Button } from "@/components/atoms/Button";
 import { PointChip } from "@/components/atoms/PointChip";
-import { createReward, deleteReward } from "@/actions/rewards";
+import { createReward, deleteReward, updateReward } from "@/actions/rewards";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, Gift } from "lucide-react";
+import { Plus, Trash2, Gift, Edit } from "lucide-react";
 import { RewardFormModal } from "./RewardFormModal";
 import { ConfirmationDialog } from "@/components/molecules/ConfirmationDialog";
 
@@ -26,9 +26,11 @@ export function RewardManager({ rewards: initial }: RewardManagerProps) {
   const [items, setItems] = useState(initial);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [rewardToDelete, setRewardToDelete] = useState<Reward | null>(null);
+  const [rewardToEdit, setRewardToEdit] = useState<Reward | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isCreating, startCreateTransition] = useTransition();
+  const [isUpdating, startUpdateTransition] = useTransition();
   const router = useRouter();
 
   function handleCreate(formData: FormData) {
@@ -41,6 +43,22 @@ export function RewardManager({ rewards: initial }: RewardManagerProps) {
       }
       toast.success("Reward berhasil ditambahkan!");
       setIsFormOpen(false);
+      router.refresh();
+      window.location.reload();
+    });
+  }
+
+  function handleUpdate(formData: FormData) {
+    if (!rewardToEdit) return;
+    setFormError(null);
+    startUpdateTransition(async () => {
+      const result = await updateReward(rewardToEdit.id, formData);
+      if (result.error) {
+        setFormError(result.error);
+        return;
+      }
+      toast.success("Reward berhasil diperbarui!");
+      setRewardToEdit(null);
       router.refresh();
       window.location.reload();
     });
@@ -123,13 +141,25 @@ export function RewardManager({ rewards: initial }: RewardManagerProps) {
                     <span>Stok Tersedia:</span>
                     <span className="text-[var(--on-surface)] font-extrabold font-mono">{r.stock} unit</span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setRewardToDelete(r)}
-                    className="inline-flex items-center justify-center p-2 rounded-full hover:bg-red-50 text-slate-400 hover:text-red-600 transition-all duration-200 cursor-pointer"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormError(null);
+                        setRewardToEdit(r);
+                      }}
+                      className="inline-flex items-center justify-center p-2 rounded-full hover:bg-indigo-50 text-slate-400 hover:text-[#4F46E5] transition-all duration-200 cursor-pointer"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRewardToDelete(r)}
+                      className="inline-flex items-center justify-center p-2 rounded-full hover:bg-red-50 text-slate-400 hover:text-red-600 transition-all duration-200 cursor-pointer"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -137,13 +167,23 @@ export function RewardManager({ rewards: initial }: RewardManagerProps) {
         )}
       </div>
 
-      {/* Reward Form Modal (Outside of transform container to prevent backdrop clipping) */}
+      {/* Reward Create Form Modal */}
       <RewardFormModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
         onSubmitAction={handleCreate}
         isPending={isCreating}
         error={formError}
+      />
+
+      {/* Reward Edit Form Modal */}
+      <RewardFormModal
+        isOpen={rewardToEdit !== null}
+        onClose={() => setRewardToEdit(null)}
+        onSubmitAction={handleUpdate}
+        isPending={isUpdating}
+        error={formError}
+        initialData={rewardToEdit}
       />
 
       {/* Confirmation Dialog Delete (Outside of transform container to prevent backdrop clipping) */}

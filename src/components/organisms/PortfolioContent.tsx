@@ -27,6 +27,8 @@ interface Submission {
   createdAt: string;
   description: string | null;
   proofUrl: string | null;
+  certificateName?: string | null;
+  certificateLevel?: string | null;
 }
 
 interface PortfolioContentProps {
@@ -61,7 +63,7 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
 
   // Extract skills (verified only)
   const verifiedSkills = submissions.filter(
-    (s) => s.status === "approved" && s.type === "skill"
+    (s) => s.status === "approved" && (s.type === "skill" || s.type === "certificate")
   );
 
   // Extract certificates (verified only)
@@ -69,8 +71,10 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
     (s) => s.status === "approved" && s.type === "certificate"
   );
 
-  // Extract portfolios (verified + pending)
-  const portfolioProjects = submissions.filter((s) => s.type === "portfolio");
+  // Extract portfolios (verified only)
+  const portfolioProjects = submissions.filter(
+    (s) => s.status === "approved" && s.type === "portfolio"
+  );
 
   // Resolve user location from socialLinks JSON
   const userLocation = user.socialLinks.location ?? "Jakarta, Indonesia";
@@ -212,15 +216,6 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                       </span>
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
-                      <div className="flex justify-between text-[10px] text-[var(--on-surface-variant)] font-semibold">
-                        <span>Poin: +{skill.pointsAwarded}</span>
-                        <span>100% Mapped</span>
-                      </div>
-                      <div className="h-1.5 bg-[var(--surface-container)] rounded-full overflow-hidden">
-                        <div className="h-full bg-green-500 rounded-full w-full" />
-                      </div>
-                    </div>
                   </div>
                 ))}
               </div>
@@ -251,40 +246,36 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {verifiedCertificates.map((cert) => {
-                  // Fallback mapping based on points for realistic display
-                  const rawLevel = cert.pointsAwarded >= 10 ? "internasional" : cert.pointsAwarded >= 5 ? "nasional" : cert.pointsAwarded >= 3 ? "regional" : "lokal";
-                  const lvlInfo = levelMappings[rawLevel] || { label: "Sertifikasi", pct: 50 };
-
                   return (
                     <div
                       key={cert.id}
-                      className="p-4 rounded-[var(--rounded-lg)] bg-[var(--surface)] border border-[var(--outline-variant)] flex flex-col gap-3"
+                      className="p-4 rounded-[var(--rounded-lg)] bg-[var(--surface)] border border-[var(--outline-variant)] flex flex-col gap-2"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <div className="rounded-[var(--rounded-md)] bg-[#4F46E5]/10 p-2 text-[#4F46E5]">
                             <Award className="h-4 w-4" />
                           </div>
-                          <span className="text-xs font-bold text-[var(--on-surface)] truncate max-w-[150px]">
-                            {cert.title}
-                          </span>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-xs font-bold text-[var(--on-surface)] truncate max-w-[150px]">
+                              {cert.certificateName || cert.title}
+                            </span>
+                            {cert.certificateName && (
+                              <span className="text-[10px] font-semibold text-[#4F46E5] truncate max-w-[150px]">
+                                Bidang Skill: {cert.title}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <span className="text-[9px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded border border-blue-200">
-                          {lvlInfo.label}
-                        </span>
+                        {cert.certificateLevel && (
+                          <span className="text-[9px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded border border-blue-200 uppercase">
+                            {cert.certificateLevel}
+                          </span>
+                        )}
                       </div>
 
-                      <div className="flex flex-col gap-1.5">
-                        <div className="flex justify-between text-[10px] text-[var(--on-surface-variant)] font-semibold">
-                          <span>Poin: +{cert.pointsAwarded}</span>
-                          <span>{lvlInfo.pct}% Validated</span>
-                        </div>
-                        <div className="h-1.5 bg-[var(--surface-container)] rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-[#4F46E5] rounded-full"
-                            style={{ width: `${lvlInfo.pct}%` }}
-                          />
-                        </div>
+                      <div className="flex items-center justify-between text-[10px] text-[var(--on-surface-variant)] font-semibold mt-1">
+                        <span>Poin: +{cert.pointsAwarded} Poin</span>
                       </div>
                     </div>
                   );
@@ -362,11 +353,6 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                 <div className="h-28 bg-gradient-to-r from-[#4F46E5] to-[#818CF8] p-4 flex flex-col justify-between text-white relative">
                   <div className="absolute inset-0 bg-black/15" />
                   <div className="flex justify-between items-center relative z-10 w-full">
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded border border-white/20 uppercase tracking-widest ${
-                      proj.status === "approved" ? "bg-green-600/90" : "bg-amber-600/90"
-                    }`}>
-                      {proj.status === "approved" ? "TERVERIFIKASI" : "MENUNGGU"}
-                    </span>
                     {proj.status === "approved" && (
                       <span className="text-xs font-bold bg-white/20 backdrop-blur-md rounded px-2 py-0.5">
                         +{proj.pointsAwarded} poin
@@ -387,10 +373,7 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                   </div>
 
                   <div className="flex items-center justify-between border-t border-[var(--outline-variant)] pt-3 text-xs">
-                    <div className="flex gap-1">
-                      <span className="text-[9px] font-bold bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded uppercase font-mono">REACT</span>
-                      <span className="text-[9px] font-bold bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded uppercase font-mono">NODE</span>
-                    </div>
+
 
                     {proj.proofUrl && (
                       <a
@@ -432,11 +415,6 @@ export function PortfolioContent({ user, submissions, isAdminView }: PortfolioCo
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                    proj.status === "approved" ? "bg-green-100 text-green-700 border-green-200" : "bg-amber-100 text-amber-700 border-amber-200"
-                  }`}>
-                    {proj.status === "approved" ? "TERVERIFIKASI" : "MENUNGGU"}
-                  </span>
                   {proj.proofUrl && (
                     <a
                       href={proj.proofUrl}

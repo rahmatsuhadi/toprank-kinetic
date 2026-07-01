@@ -31,6 +31,7 @@ interface Submission {
   createdAt?: string | null;
   description?: string | null;
   proofUrl?: string | null;
+  certificateName?: string | null;
 }
 
 interface Student {
@@ -55,29 +56,26 @@ interface GroupedSkill {
 
 function getGroupedSkills(submissions: Submission[]): GroupedSkill[] {
   const groups: Record<string, string[]> = {};
-  
+
   submissions.forEach((sub) => {
     const key = sub.title;
     if (!groups[key]) {
       groups[key] = [];
     }
-    
+
     let tag = "";
     if (sub.type === "certificate") {
-      tag = `Sertifikat ${sub.certificateLevel || ""}`;
+      tag = sub.certificateName
+        ? `${sub.certificateName} (${sub.certificateLevel ? sub.certificateLevel.toUpperCase() : "LOKAL"})`
+        : `Sertifikat ${sub.certificateLevel ? sub.certificateLevel.toUpperCase() : ""}`;
     } else if (sub.type === "portfolio") {
-      tag = `Portofolio ${sub.portfolioLevel || ""}`;
+      tag = `Portofolio ${sub.portfolioLevel ? sub.portfolioLevel.toUpperCase() : ""}`;
     } else {
       tag = "Keahlian";
     }
-    
-    const formattedTag = tag
-      .split(" ")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" ");
 
-    if (!groups[key].includes(formattedTag)) {
-      groups[key].push(formattedTag);
+    if (!groups[key].includes(tag)) {
+      groups[key].push(tag);
     }
   });
 
@@ -160,6 +158,8 @@ export function StudentSearch() {
             createdAt: s.createdAt ?? new Date().toISOString(),
             description: s.description ?? null,
             proofUrl: s.proofUrl ?? null,
+            certificateName: s.certificateName ?? null,
+            certificateLevel: s.certificateLevel ?? null,
           }))}
           isAdminView={true}
         />

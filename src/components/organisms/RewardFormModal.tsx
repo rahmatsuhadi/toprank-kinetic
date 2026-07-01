@@ -11,6 +11,12 @@ interface RewardFormModalProps {
   onSubmitAction: (formData: FormData) => void;
   isPending: boolean;
   error: string | null;
+  initialData?: {
+    title: string;
+    description: string;
+    pointsCost: number;
+    stock: number;
+  } | null;
 }
 
 export function RewardFormModal({
@@ -19,6 +25,7 @@ export function RewardFormModal({
   onSubmitAction,
   isPending,
   error,
+  initialData,
 }: RewardFormModalProps) {
   useEffect(() => {
     if (isOpen) {
@@ -47,7 +54,7 @@ export function RewardFormModal({
         <div className="relative p-6 pb-4 border-b border-[var(--outline-variant)]">
           <div className="flex items-center justify-between">
             <h3 className="text-md font-extrabold text-[var(--on-surface)]">
-              Tambah Reward Baru
+              {initialData ? "Edit Reward" : "Tambah Reward Baru"}
             </h3>
             <button
               type="button"
@@ -75,6 +82,7 @@ export function RewardFormModal({
               className="group"
               inputProps={{
                 name: "title",
+                defaultValue: initialData?.title || "",
                 placeholder: "Masukkan nama reward (misal: Voucher Kantin)",
                 className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
               }}
@@ -87,6 +95,7 @@ export function RewardFormModal({
               type="textarea"
               textareaProps={{
                 name: "description",
+                defaultValue: initialData?.description || "",
                 placeholder: "Jelaskan detail reward dan syarat klaimnya...",
                 rows: 3,
                 className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
@@ -102,6 +111,7 @@ export function RewardFormModal({
                   name: "pointsCost",
                   type: "number",
                   min: 1,
+                  defaultValue: initialData?.pointsCost ?? "",
                   placeholder: "10",
                   className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
                 }}
@@ -114,6 +124,7 @@ export function RewardFormModal({
                   name: "stock",
                   type: "number",
                   min: 0,
+                  defaultValue: initialData !== undefined && initialData !== null ? initialData.stock : "",
                   placeholder: "50",
                   className: "bg-[var(--surface-container-lowest)] focus:ring-2 focus:ring-[#4F46E5]/20 focus:border-[#4F46E5]",
                 }}

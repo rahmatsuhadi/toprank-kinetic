@@ -31,6 +31,7 @@ interface DashboardContentProps {
     status: string;
     pointsAwarded: number;
     createdAt: string;
+    certificateName?: string | null;
   }[];
   topSkills: { name: string; points: number }[];
 }
@@ -83,14 +84,6 @@ export function DashboardContent({
             Portofoliomu terus berkembang. Terus tingkatkan skill dan raih lebih banyak poin!
           </p>
 
-          {/* AI Recommendation hint */}
-          <div className="mt-4 inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm rounded-full px-4 py-2 text-sm">
-            <Sparkles className="h-4 w-4 text-[var(--reward-gold)]" />
-            <span className="text-white/90">
-              AI Rekomendasi: Tingkatkan skill Cloud Architecture
-            </span>
-            <span className="text-white/50 text-xs">(Segera hadir)</span>
-          </div>
         </div>
 
         {/* Quick Actions */}
@@ -248,8 +241,13 @@ export function DashboardContent({
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[var(--on-surface)] truncate">
-                        {sub.title}
+                        {sub.type === "certificate" && sub.certificateName ? sub.certificateName : sub.title}
                       </p>
+                      {sub.type === "certificate" && sub.certificateName && (
+                        <p className="text-[10px] font-semibold text-[#4F46E5] mt-0.5">
+                          Bidang Skill: {sub.title}
+                        </p>
+                      )}
                       <p className="text-xs text-[var(--on-surface-variant)]">
                         {statusLabels[sub.status] ?? sub.status} ·{" "}
                         {new Date(sub.createdAt).toLocaleDateString("id-ID", {
