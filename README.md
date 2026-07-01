@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# University Talent Hub 🚀
 
-## Getting Started
+**University Talent Hub** adalah platform digital berbasis gamifikasi (MVP) yang dirancang untuk memetakan, mendokumentasikan, dan mempromosikan kompetensi akademik maupun non-akademik mahasiswa secara terstruktur. 
 
-First, run the development server:
+Mahasiswa dapat mengajukan portofolio, keahlian (*skill*), atau sertifikat untuk diverifikasi oleh Admin. Setiap pengajuan yang disetujui akan menghasilkan poin yang dapat meningkatkan peringkat mereka di *Leaderboard*, serta dapat ditukarkan dengan berbagai *reward* menarik di katalog.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Aplikasi ini dibangun menggunakan teknologi modern:
+- **Framework**: [Next.js 16 (Turbopack, App Router)](https://nextjs.org/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+- **Autentikasi**: [Better Auth](https://www.better-auth.com/)
+- **Styling**: Tailwind CSS & Custom Vanilla CSS (mengikuti pola *Atomic Design*: Atoms, Molecules, Organisms, Templates)
+- **Linter & Formatter**: [Biome](https://biomejs.dev/)
+- **Containerization**: [Docker & Docker Compose](https://www.docker.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ⚙️ Persyaratan Sistem
 
-To learn more about Next.js, take a look at the following resources:
+Pastikan perangkat kamu sudah terinstal:
+- [Node.js v22+](https://nodejs.org/)
+- [pnpm v10+](https://pnpm.io/)
+- [Docker & Docker Compose](https://docs.docker.com/get-docker/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Cara Menjalankan Aplikasi
 
-## Deploy on Vercel
+Pilih salah satu metode di bawah ini untuk menjalankan aplikasi:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Opsi A: Menjalankan via Docker & Docker Compose (Paling Mudah)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Metode ini akan menjalankan Next.js app dan PostgreSQL secara kontainerisasi penuh tanpa perlu menginstal Node/pnpm lokal.
+
+1. **Salin Environment Variables**
+   ```bash
+   cp .env.example .env
+   ```
+   *Catatan: Nilai default di `.env.example` sudah disesuaikan agar bisa langsung terhubung antar kontainer Docker.*
+
+2. **Jalankan Docker Compose**
+   Build image dan jalankan kontainer:
+   ```bash
+   docker compose up --build
+   ```
+
+3. **Jalankan Migrasi & Seed Database**
+   Setelah kontainer menyala, buka terminal baru dan jalankan perintah berikut untuk membuat tabel dan mengisi data demo:
+   ```bash
+   # Dorong skema database ke PostgreSQL
+   docker compose exec web pnpm run db:push
+   
+   # Isi database dengan data demo/seed
+   docker compose exec web pnpm run db:seed
+   ```
+
+4. **Akses Aplikasi**
+   Buka [http://localhost:3000](http://localhost:3000) di browsermu.
+
+---
+
+### Opsi B: Menjalankan via pnpm (Pengembangan Lokal)
+
+Metode ini cocok jika kamu ingin melakukan *live coding* atau pengembangan aktif secara lokal.
+
+1. **Salin Environment Variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Buka file `.env.local` dan ubah host `postgres` di `DATABASE_URL` menjadi `localhost`:
+   ```env
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/toprank
+   ```
+
+2. **Jalankan Database PostgreSQL saja via Docker**
+   ```bash
+   docker compose up postgres -d
+   ```
+
+3. **Instal Dependensi Lokal**
+   ```bash
+   pnpm install
+   ```
+
+4. **Migrasi & Seed Database**
+   ```bash
+   # Sinkronisasi skema database
+   pnpm run db:push
+   
+   # Jalankan seeding data
+   pnpm run db:seed
+   ```
+
+5. **Jalankan Development Server**
+   ```bash
+   pnpm run dev
+   ```
+   Aplikasi akan berjalan di [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🔑 Akun Demo untuk Pengujian
+
+Gunakan akun berikut yang sudah disediakan oleh sistem *seeding* untuk mencoba fitur di dalam aplikasi (semua password bernilai `password123` kecuali Admin):
+
+### 1. Administrator (Admin)
+Akses penuh untuk memverifikasi submisi mahasiswa, mengelola reward, dan memposting opportunity baru.
+- **Email**: `admin@kinetic.ac.id`
+- **Password**: `admin123`
+
+### 2. Mahasiswa (Student)
+Bisa melengkapi profil, mengajukan sertifikat/portofolio, melihat leaderboard, dan menukar reward.
+- **Akun 1 (Budi Santoso)**
+  - **Email**: `budi.santoso@student.ac.id`
+  - **NIM**: `22.11.4561`
+  - **Password**: `password123`
+- **Akun 2 (Clara Wijaya)**
+  - **Email**: `clara.wijaya@student.ac.id`
+  - **NIM**: `22.11.4562`
+  - **Password**: `password123`
+- **Akun 3 (Farhan Ramadhan)**
+  - **Email**: `farhan.ramadhan@student.ac.id`
+  - **NIM**: `23.11.5120`
+  - **Password**: `password123`
+
+---
+
+## 📝 Perintah Tambahan
+
+- **Format & Lint Code (Biome)**:
+  ```bash
+  pnpm run lint     # Cek kesalahan kode & format
+  pnpm run format   # Tulis otomatis perbaikan format
+  ```
+- **Build Production Lokal**:
+  ```bash
+  pnpm run build
+  pnpm run start
+  ```

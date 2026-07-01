@@ -14,5 +14,20 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: always
 
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: toprank-web
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/toprank
+      - BETTER_AUTH_SECRET=kinetic-academy-dev-secret-change-in-production
+      - BETTER_AUTH_URL=http://localhost:3000
+    depends_on:
+      - postgres
+    restart: always
+
 volumes:
   postgres_data:
