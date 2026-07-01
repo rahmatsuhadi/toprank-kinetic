@@ -12,7 +12,7 @@ export default function HomePage() {
             <Zap className="h-8 w-8 text-[var(--reward-gold)]" />
             <span className="text-xl font-bold">Kinetic Academy</span>
           </div>
-          <h1 className="text-display-lg max-w-2xl">University Talent Hub</h1>
+          <h1 className="text-display-lg max-w-2xl">Universitas Amikom Yogyakarta</h1>
           <p className="text-body-lg text-white/80 max-w-lg mt-4">
             Platform gamifikasi untuk memetakan, mengembangkan, dan
             mempertemukan talenta mahasiswa dengan berbagai peluang.
@@ -93,7 +93,7 @@ export default function HomePage() {
             Kinetic Academy
           </div>
           <p className="text-xs text-[var(--outline)]">
-            © {new Date().getFullYear()} University Talent Hub
+            © {new Date().getFullYear()} Universitas Amikom Yogyakarta
           </p>
         </div>
       </footer>

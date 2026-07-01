@@ -1,6 +1,6 @@
-# University Talent Hub 🚀
+# Universitas Amikom Yogyakarta 🚀
 
-**University Talent Hub** adalah platform digital berbasis gamifikasi (MVP) yang dirancang untuk memetakan, mendokumentasikan, dan mempromosikan kompetensi akademik maupun non-akademik mahasiswa secara terstruktur. 
+**Universitas Amikom Yogyakarta** adalah platform digital berbasis gamifikasi (MVP) yang dirancang untuk memetakan, mendokumentasikan, dan mempromosikan kompetensi akademik maupun non-akademik mahasiswa secara terstruktur. 
 
 Mahasiswa dapat mengajukan portofolio, keahlian (*skill*), atau sertifikat untuk diverifikasi oleh Admin. Setiap pengajuan yang disetujui akan menghasilkan poin yang dapat meningkatkan peringkat mereka di *Leaderboard*, serta dapat ditukarkan dengan berbagai *reward* menarik di katalog.
 

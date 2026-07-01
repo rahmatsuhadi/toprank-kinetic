@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kinetic Academy — University Talent Hub",
+  title: "Kinetic Academy — Universitas Amikom Yogyakarta",
   description:
     "Platform gamifikasi untuk memetakan, mengembangkan, dan mempertemukan talenta mahasiswa dengan berbagai peluang.",
 };

@@ -4,7 +4,7 @@ import { RegisterForm } from "@/components/organisms/RegisterForm";
 
 export const metadata: Metadata = {
   title: "Daftar — Kinetic Academy",
-  description: "Daftar akun baru di University Talent Hub",
+  description: "Daftar akun baru di Universitas Amikom Yogyakarta",
 };
 
 export default function RegisterPage() {

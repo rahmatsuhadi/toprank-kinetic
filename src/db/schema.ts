@@ -49,7 +49,7 @@ export const user = pgTable("user", {
   image: text("image"),
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at").notNull(),
-  // Custom fields for University Talent Hub
+  // Custom fields for Universitas Amikom Yogyakarta
   nim: text("nim").unique(),
   role: roleEnum("role").default("mahasiswa").notNull(),
   bio: text("bio"),

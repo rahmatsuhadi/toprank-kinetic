@@ -1,9 +1,9 @@
-# Product Requirements Document (PRD) - University Talent Hub
+# Product Requirements Document (PRD) - Universitas Amikom Yogyakarta
 
 ## 1. Executive Summary
 
 - **Problem Statement**: Perguruan tinggi sulit memetakan dan memanfaatkan kompetensi mahasiswa karena data tersebar, tidak terdokumentasi, serta mahasiswa kurang termotivasi untuk mendokumentasikan keahlian non-akademik mereka secara terstruktur.
-- **Proposed Solution**: Membangun University Talent Hub sebagai MVP platform digital berbasis gamifikasi. Mahasiswa dapat mengajukan portofolio/sertifikat untuk diverifikasi admin demi mendapatkan poin, bersaing di leaderboard, menukar reward, dan menerima rekomendasi kolaborasi bertenaga Gemini API (Flash).
+- **Proposed Solution**: Membangun Universitas Amikom Yogyakarta sebagai MVP platform digital berbasis gamifikasi. Mahasiswa dapat mengajukan portofolio/sertifikat untuk diverifikasi admin demi mendapatkan poin, bersaing di leaderboard, menukar reward, dan menerima rekomendasi kolaborasi bertenaga Gemini API (Flash).
 - **Success Criteria**:
   - **Uptime & Performance**: Kecepatan load dashboard admin dan mahasiswa < 1.5 detik.
   - **Engagement**: Minimal 70% mahasiswa terdaftar aktif memperbarui profil & portofolio.
@@ -199,7 +199,7 @@ export const user = pgTable('user', {
   image: text('image'),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
-  // Custom Fields untuk University Talent Hub
+  // Custom Fields untuk Universitas Amikom Yogyakarta
   nim: text('nim').unique(), // NULL untuk admin
   role: roleEnum('role').default('mahasiswa').notNull(),
   bio: text('bio'),

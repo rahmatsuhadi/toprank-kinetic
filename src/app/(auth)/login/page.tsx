@@ -4,7 +4,7 @@ import { LoginForm } from "@/components/organisms/LoginForm";
 
 export const metadata: Metadata = {
   title: "Login — Kinetic Academy",
-  description: "Masuk ke University Talent Hub",
+  description: "Masuk ke Universitas Amikom Yogyakarta",
 };
 
 export default function LoginPage() {
