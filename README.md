@@ -43,22 +43,13 @@ Metode ini akan menjalankan Next.js app dan PostgreSQL secara kontainerisasi pen
    *Catatan: Nilai default di `.env.example` sudah disesuaikan agar bisa langsung terhubung antar kontainer Docker.*
 
 2. **Jalankan Docker Compose**
-   Build image dan jalankan kontainer:
+   Jalankan seluruh layanan (Next.js, database, migrasi skema, dan seeding data awal) secara otomatis dalam satu perintah:
    ```bash
-   docker compose up --build
+   docker compose up -d --build
    ```
+   *Catatan: Pada saat startup pertama kali, kontainer `web` akan menunggu database siap, kemudian otomatis menjalankan `db:push` dan `db:seed`. Jika database sudah terisi di kemudian hari, seeding akan dilewati otomatis.*
 
-3. **Jalankan Migrasi & Seed Database**
-   Setelah kontainer menyala, buka terminal baru dan jalankan perintah berikut untuk membuat tabel dan mengisi data demo:
-   ```bash
-   # Dorong skema database ke PostgreSQL
-   docker compose exec web pnpm run db:push
-   
-   # Isi database dengan data demo/seed
-   docker compose exec web pnpm run db:seed
-   ```
-
-4. **Akses Aplikasi**
+3. **Akses Aplikasi**
    Buka [http://localhost:3000](http://localhost:3000) di browsermu.
 
 ---

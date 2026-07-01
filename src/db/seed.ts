@@ -362,6 +362,14 @@ async function seed() {
   const client = postgres(process.env.DATABASE_URL!);
   const db = drizzle(client, { schema });
 
+  console.log("🌱 Checking if database needs seeding...");
+  const existingUsers = await db.select().from(user).limit(1);
+  if (existingUsers.length > 0) {
+    console.log("🌱 Database already has users. Skipping seed.");
+    await client.end();
+    process.exit(0);
+  }
+
   console.log("🌱 Seeding database...");
 
   // 0. Clear existing data
