@@ -1,16 +1,13 @@
 "use client";
 
 import { LogIn } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/atoms/Button";
 import { FormField } from "@/components/molecules/FormField";
-import { authClient } from "@/lib/auth-client";
+import { type AppUser, authClient } from "@/lib/auth-client";
 
 export function LoginForm() {
-  const router = useRouter();
-
   async function handleLogin(_prev: string | null, formData: FormData) {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
@@ -20,7 +17,7 @@ export function LoginForm() {
     }
 
     try {
-      const { error } = await authClient.signIn.email({
+      const { data, error } = await authClient.signIn.email({
         email,
         password,
       });
@@ -31,13 +28,13 @@ export function LoginForm() {
 
       toast.success("Login berhasil!");
 
-      // Fetch session to determine role-based redirect
-      const { data: session } = await authClient.getSession();
-      const role = (session?.user as Record<string, unknown> | undefined)?.role;
+      const user = data?.user as AppUser | undefined;
+      const role = user?.role;
+
       if (role === "admin") {
-        router.push("/admin/dashboard");
+        window.location.href = "/admin/dashboard";
       } else {
-        router.push("/mahasiswa/dashboard");
+        window.location.href = "/mahasiswa/dashboard";
       }
 
       return null;

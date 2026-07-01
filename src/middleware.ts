@@ -1,3 +1,4 @@
+import { getSessionCookie } from "better-auth/cookies";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
@@ -13,8 +14,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check for session cookie (Better Auth uses a token cookie)
-  const sessionToken = request.cookies.get("better-auth.session_token")?.value;
+  // Check for session cookie using Better Auth helper
+  const sessionToken = getSessionCookie(request);
 
   if (!sessionToken) {
     return NextResponse.redirect(new URL("/login", request.url));
