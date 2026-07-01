@@ -22,8 +22,8 @@ services:
       - "3000:3000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/toprank
-      - BETTER_AUTH_SECRET=kinetic-academy-dev-secret-change-in-production
-      - BETTER_AUTH_URL=http://localhost:3000
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${NEXT_PUBLIC_APP_URL}
     depends_on:
       - postgres
     restart: always

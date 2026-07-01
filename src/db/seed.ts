@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 
-config({ path: ".env.local" });
+config({ path: [".env.local", ".env"] });
 
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -22,7 +22,7 @@ const dummyStudents = [
     name: "Budi Santoso",
     email: "budi.santoso@student.ac.id",
     password: "password123",
-    nim: "22.11.4561",
+    nim: "99.11.4561",
     prodi: "Teknik Informatika",
     angkatan: "2022",
     bio: "Web Developer yang suka ngulik React, Next.js, dan Node.js. Punya mimpi bikin startup sendiri. ✨",
@@ -64,7 +64,7 @@ const dummyStudents = [
     name: "Clara Wijaya",
     email: "clara.wijaya@student.ac.id",
     password: "password123",
-    nim: "22.11.4562",
+    nim: "99.11.4562",
     prodi: "Sistem Informasi",
     angkatan: "2022",
     bio: "UI/UX Designer yang berfokus pada kemudahan aksesibilitas pengguna. Suka bikin design system di Figma. 🎨",
@@ -171,7 +171,7 @@ const dummyStudents = [
     name: "Hendra Wijaya",
     email: "hendra.wijaya@student.ac.id",
     password: "password123",
-    nim: "22.12.4901",
+    nim: "99.12.4901",
     prodi: "Desain Komunikasi Visual",
     angkatan: "2022",
     bio: "Video Editor & Motion Designer. Bikin konten kreatif dan sinematik adalah jalan ninjaku. 🎬",
@@ -232,7 +232,7 @@ const dummyStudents = [
     name: "Kevin Sanjaya",
     email: "kevin.sanjaya@student.ac.id",
     password: "password123",
-    nim: "22.11.4570",
+    nim: "99.11.4570",
     prodi: "Teknik Informatika",
     angkatan: "2022",
     bio: "Mobile App Developer dengan kecintaan khusus pada Flutter. Suka ngoprek state management Bloc dan Riverpod. 📱",
@@ -296,7 +296,7 @@ const dummyStudents = [
     name: "Muhammad Rizky",
     email: "rizky.m@student.ac.id",
     password: "password123",
-    nim: "22.11.4588",
+    nim: "99.11.4588",
     prodi: "Teknik Informatika",
     angkatan: "2022",
     bio: "Backend Engineer yang senang mendesain API bersih, performan, dan aman. Docker & Go adalah andalan. ⚙️",
